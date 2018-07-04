@@ -15,11 +15,12 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/availability-service-0.0.1-SNAPSHOT.jar', fingerprint: true
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
