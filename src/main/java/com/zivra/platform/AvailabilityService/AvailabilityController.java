@@ -16,7 +16,7 @@ public class AvailabilityController {
 
     @GetMapping("/hello-world")
     @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required = false, defaultValue = "you") String name) {
+    public Greeting sayHello(@RequestParam(name="name", required = false, defaultValue = "world") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 
