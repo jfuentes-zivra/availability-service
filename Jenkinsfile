@@ -20,7 +20,7 @@ pipeline {
             steps {
 
                 withDockerRegistry([credentialsId: 'nexus3admin', url: 'https://nexus.lab.zivra.com:6543']) {
-                    sh "docker push zivra/availability-service:${GIT_SHA}"
+                    sh "docker push availability-service" // :${GIT_SHA}"
 
 
 //                docker.withRegistry('https://nexus.lab.zivra.com:8443/repositories/docker') {
