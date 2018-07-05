@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh 'mvn -B -DskipTests clean package'
 
-        stash name: 'app.jar', includes: 'target/*.jar', allowEmpty?: true
+        stash includes: 'target/*.jar', name: 'app.jar', allowEmpty?: true
 
       }
     }
