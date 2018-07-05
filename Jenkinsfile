@@ -17,12 +17,14 @@ pipeline {
             }
         }
         stage('Docker Image') {
+            steps {
 
-            docker.withRegistry('https://nexus.lab.zivra.com:8443/repositories/docker') {
+                docker.withRegistry('https://nexus.lab.zivra.com:8443/repositories/docker') {
 
-                def myImage = docker.build("availability-service:${env.BUILD_ID}")
+                    def myImage = docker.build("availability-service:${env.BUILD_ID}")
 
-                myImage.push()
+                    myImage.push()
+                }
             }
         }
     }
