@@ -18,24 +18,26 @@ pipeline {
         }
         stage('Docker Image') {
             steps {
+//                docker {
+//                    label 'docker'
+//                    image 'availability-service'
+//                    registryUrl 'https://myregistry.com/'
+//                    registryCredentialsId 'nexus3admin'
+//                }
 
-                docker.withRegistry([credentialsId: 'nexus3admin', url: 'https://nexus.lab.zivra.com:6543']) {
 //                    sh "docker push availability-service" // :${GIT_SHA}"
 
-                    def myImage = docker.build("availability-service:${env.BUILD_ID}")
 
-                    myImage.push()
+                script {
 
-//                    script {
-//
-//                        docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
-//
-//                            def myImage = docker.build("availability-service:${env.BUILD_ID}")
-//
-//                            myImage.push()
-//                        }
-//                    }
+                    docker.withRegistry([credentialsId: 'nexus3admin', url: 'https://nexus.lab.zivra.com:6543']) {
+
+                        def myImage = docker.build("availability-service:${env.BUILD_ID}")
+
+                        myImage.push()
+                    }
                 }
+
             }
         }
     }
