@@ -30,7 +30,7 @@ pipeline {
 
                 script {
 
-                    docker.withRegistry([credentialsId: 'nexus3admin', url: 'https://nexus.lab.zivra.com:6543']) {
+                    docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
 
                         def myImage = docker.build("availability-service:${env.BUILD_ID}")
 
