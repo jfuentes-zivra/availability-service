@@ -27,7 +27,7 @@ pipeline {
       }
     }
     stage('Docker Image') {
-      agent{label 'master' }
+      agent any  // {label 'master' }
       steps {
 
         //  unstash 'app'
