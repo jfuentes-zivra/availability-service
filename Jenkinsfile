@@ -12,12 +12,18 @@ pipeline {
         sh 'mvn -B -DskipTests clean package'
       }
     }
+    post{
+      always{
+        stash 'target/*.jar'
+      }
+    }
     stage('Test') {
       steps {
         sh 'mvn test'
       }
     }
     stage('Docker Image') {
+      agent
       steps {
         script {
           docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
