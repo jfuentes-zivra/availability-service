@@ -29,6 +29,7 @@ pipeline {
             def myImage = docker.build("availability-service:${env.BUILD_ID}")
 
             myImage.push()
+
           }
         }
 
