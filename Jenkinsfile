@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh 'mvn -B -DskipTests clean package'
 
-        stash includes: 'target/*.jar', name: 'app'
+        // stash includes: 'target/*.jar', name: 'app'
 
       }
     }
@@ -24,7 +24,7 @@ pipeline {
       agent{label 'master' }
       steps {
 
-        unstash 'app'
+        // unstash 'app'
 
         script {
           docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
