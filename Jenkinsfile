@@ -23,7 +23,7 @@ pipeline {
       }
     }
     stage('Docker Image') {
-      agent
+      agent any
       steps {
         script {
           docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
