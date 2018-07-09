@@ -42,7 +42,7 @@ pipeline {
 
       steps {
         script{
-          sh "git clean -f && git reset --hard origin/master"
+          // sh "git clean -f && git reset --hard origin/master"
           def mvnHome = tool 'M3'
           // we want to pick up the version from the pom
           def pom = readMavenPom file: 'pom.xml'
