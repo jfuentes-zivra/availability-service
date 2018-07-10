@@ -41,7 +41,7 @@ pipeline {
       }
 
       steps {
-      sh "ls -la /root/.m2"
+      sh "ls -la .m2"
         sh "mvn clean deploy -Dmaven.test.skip=true"
       }
 
