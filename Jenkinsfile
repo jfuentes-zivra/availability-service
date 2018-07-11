@@ -42,6 +42,7 @@ pipeline {
 
       steps {
       sh "ls -la .m2"
+        sh "cat .m2/settings.xml"
         sh "mvn clean deploy -Dmaven.test.skip=true"
       }
 
