@@ -43,7 +43,7 @@ pipeline {
       steps {
       sh "ls -la .m2"
         sh "cat .m2/settings.xml"
-        sh "mvn deploy -Dmaven.test.skip=true -X -s .m2/settings.xml"
+        sh "mvn deploy -Dmaven.test.skip=true -s .m2/settings.xml"
       }
 
     }
