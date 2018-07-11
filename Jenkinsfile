@@ -52,7 +52,10 @@ pipeline {
         script {
           docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
 
-            def myImage = docker.build("availability-service:${env.BUILD_ID}", "-t availability-service:latest")
+            def myImage = docker.build()
+            
+            myImage.tag("availability-service:${env.BUILD_ID}")
+            myImage.tag("availability-service:latest")
 
             myImage.push()
 
