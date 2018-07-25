@@ -1,69 +1,109 @@
-pipeline {
-  agent none
-  stages {
-    stage('Build') {
-      agent {
-        docker {
-          image 'maven:3.5.4-jdk-8-alpine'
-          args '-v $HOME/.m2:/root/.m2'
+pipeline{
+  
+    agent none
+ 
+    stages{
+        stage('Build') {
+            agent{
+                docker{
+                    image 'maven:3-jdk-10'
+                    args '-v ${HOME}/.m2:/.m2:z -e _JAVA_OPTIONS="-Duser.home=/"'
+                }
+            }          
+            steps{
+ 
+                sh 'mvn clean install -Dmaven.test.failure.ignore=true -Dmaven.test.skip=true'
+ 
+            }
         }
-      }
-
-      steps {
-        sh 'mvn -B -DskipTests clean package'
-
-        archiveArtifacts(artifacts: 'target/availability-service-0.0.1-SNAPSHOT.jar', fingerprint: true)
-
-      }
-    }
-
-    stage('Test') {
-      agent {
-        docker {
-          image 'maven:3.5.4-jdk-8-alpine'
-          args '-v $HOME/.m2:/root/.m2'
+        stage('Test') {
+            agent{
+                docker{
+                    image 'maven:3-jdk-10'
+                    args '-v ${HOME}/.m2:/.m2:z -v ${HOME}/.sonar:/.sonar:z -e _JAVA_OPTIONS="-Duser.home=/"'
+                }
+            }
+            steps{
+                parallel(
+                    SonarQube: {
+                        withSonarQubeEnv('SonarQube') {
+ 
+                            sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+                        }
+                    },
+                    JUnit: {
+                        junit '**/target/surefire-reports/TEST-*.xml'
+                        archive 'target/*.jar'
+                    }
+                )
+            }
         }
-      }
+ 
+        stage('Archive') {
+            parallel{
+                stage('Nexus'){
+                    agent{
+                        docker{
+                            image 'maven:3-jdk-10'
 
-      steps {
-        sh 'mvn test'
-
-        junit 'target/surefire-reports/*.xml'
-
-      }
-    }
-    stage('Nexus'){
-      agent {
-        docker {
-          image 'maven:3.5.4-jdk-8-alpine'
-          args '-v $HOME/.m2:${WORKSPACE}/.m2'
+                            args '-v ${HOME}/.m2:/.m2:z -e _JAVA_OPTIONS="-Duser.home=/"'
+                        }
+                    }
+                    steps{
+ 
+                        sh "mvn deploy -Dmaven.test.skip=true"
+ 
+                    }
+                }
+                stage('Local'){
+                    agent any
+     
+                    steps{
+ 
+                        archiveArtifacts 'target/*.jar'
+ 
+                    }
+                }
+ 
+            }
+ 
         }
-      }
+        stage('Docker'){
+            agent any
+            steps{
+                sh "echo POM artifactid ${env.POM_ARTIFACTID}"
+                script{
+                    docker.withRegistry('https://nexus.lab.zivra.com:3456', 'nexus3admin'){
+ 
+                        def jobName = "${env.JOB_NAME}"
+                        def imageName = jobName.substring(0, jobName.indexOf("/"))
+ 
+                        def pom = readMavenPom file: 'pom.xml'
+                         
+                        def outputJar = pom.artifactId + "-" + pom.version + ".jar"
+ 
+                        sh "echo jar name ${outputJar}"
+                         
+                        def myImage = docker.build(imageName, "--build-arg JAR_FILE=${outputJar} .")
+ 
+                        myImage.push("${env.BUILD_ID}")
+                        myImage.push('latest')
 
-      steps {
-      sh "ls -la .m2"
-        sh "cat .m2/settings.xml"
-        sh "mvn deploy -Dmaven.test.skip=true -s .m2/settings.xml"
-      }
+                    //    sh "docker -H qa-deploy1:2375 stop ${imageName} || true"
+                    //    sh "docker -H qa-deploy1:2375 rm ${imageName} || true"
+                    //    sh "docker -H qa-deploy1:2375 run -d --name ${imageName} -p 8087:8087 ${imageName}:latest"
 
-    }
-    stage('Docker Image') {
-      steps {
-        script {
-          docker.withRegistry('https://nexus.lab.zivra.com:6543', 'nexus3admin') {
 
-            def myImage = docker.build("availability-service")
-            
-            myImage.tag("latest")
-
-            myImage.push("${env.BUILD_ID}")
-            myImage.push("latest")
-
-          }
+                    }
+                }
+            }
         }
-
-      }
     }
-  }
-
+    post{
+        always{
+            mail to: 'developers@lab.zivra.com',
+                 subject: "${currentBuild.currentResult} - ${currentBuild.fullDisplayName}",
+                 body: "${env.BUILD_URL}"
+        }
+    }
 }
