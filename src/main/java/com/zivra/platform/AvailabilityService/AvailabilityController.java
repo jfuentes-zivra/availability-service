@@ -1,7 +1,7 @@
 package com.zivra.platform.AvailabilityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;platformng/availability-service.git
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
