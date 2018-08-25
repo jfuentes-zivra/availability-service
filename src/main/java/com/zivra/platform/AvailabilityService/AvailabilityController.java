@@ -1,11 +1,7 @@
 package com.zivra.platform.AvailabilityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;platformng/availability-service.git
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
@@ -15,7 +11,7 @@ import java.util.List;
 public class AvailabilityController {
 
     @Autowired
-    private EngineerRepository repo;
+    // private EngineerRepository repo;
 
     private static final String template = "Hello %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -38,20 +34,20 @@ public class AvailabilityController {
     }
 
 
-    @GetMapping("/engineers")
-    @ResponseBody
-    public List<Engineer> getEngineers(){
+//     @GetMapping("/engineers")
+//     @ResponseBody
+//     public List<Engineer> getEngineers(){
 
-        return repo.findAll();
-    }
+//         return repo.findAll();
+//     }
 
-    @PostMapping("/engineer")
-    @ResponseBody
-    public Engineer addEngineer(@RequestBody Engineer engineer){
+//     @PostMapping("/engineer")
+//     @ResponseBody
+//     public Engineer addEngineer(@RequestBody Engineer engineer){
 
-//        return repo.save(new Engineer(firstName, lastName));
-        System.out.println(engineer.firstName);
-        return repo.save(engineer);
+// //        return repo.save(new Engineer(firstName, lastName));
+//         System.out.println(engineer.firstName);
+//         return repo.save(engineer);
 
-    }
+//     }
 }
