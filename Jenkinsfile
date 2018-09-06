@@ -12,7 +12,7 @@ pipeline{
             }          
             steps{
  
-                sh 'mvn clean install -Dmaven.test.failure.ignore=true -Dmaven.test.skip=true'
+                sh 'mvn clean install -Dmaven.test.failure.ignore=true -U'
  
             }
         }
