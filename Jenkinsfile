@@ -6,7 +6,7 @@ pipeline{
         stage('Build') {
             agent{
                 docker{
-                    image 'maven:3-jdk-10'
+                    image 'maven:3.5.4-jdk-10'
                     args '-v ${HOME}/.m2:/.m2:z -e _JAVA_OPTIONS="-Duser.home=/"'
                 }
             }          
@@ -19,7 +19,7 @@ pipeline{
         stage('Test') {
             agent{
                 docker{
-                    image 'maven:3-jdk-10'
+                    image 'maven:3.5.4-jdk-10'
                     args '-v ${HOME}/.m2:/.m2:z -v ${HOME}/.sonar:/.sonar:z -e _JAVA_OPTIONS="-Duser.home=/"'
                 }
             }
