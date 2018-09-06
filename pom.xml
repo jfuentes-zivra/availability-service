@@ -5,11 +5,15 @@
 
 	<groupId>com.zivra.platform</groupId>
 	<artifactId>availability-service</artifactId>
-	<version>0.0.1-RELEASE</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>AvailabilityService</name>
 	<description>Demo project for Spring Boot</description>
+
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.lab.zivra.com/platformng/availability-service.git</developerConnection>
+	</scm>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -157,8 +161,13 @@
 				<configuration>
 					<serverId>nexus</serverId>
 					<nexusUrl>http://nexus.lab.zivra.com:8081/</nexusUrl>
-					<skipStaging>true</skipStaging>
+					<!-- <skipStaging>true</skipStaging> -->
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
 			</plugin>
 		</plugins>
 	</build>
