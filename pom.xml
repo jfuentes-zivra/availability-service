@@ -175,13 +175,13 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<!-- <url>https://nexus.james.lab.zivra.com:8443/repository/maven-snapshots/</url> -->
+			<url>https://nexus.james.lab.zivra.com:8443/repository/maven-snapshots/</url>
 		</snapshotRepository>
 		<repository>
-			<uniqueVersion>false</uniqueVersion>
+			<uniqueVersion>true</uniqueVersion>
 			<id>nexus-releases</id>
 			<name>Nexus Release Repo</name>
-			<!-- <url>https://nexus.james.lab.zivra.com:8443/repository/maven-releases</url> -->
+			<url>https://nexus.james.lab.zivra.com:8443/repository/maven-releases</url>
 			<layout>default</layout>
 		</repository>
 	</distributionManagement>
