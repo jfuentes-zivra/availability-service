@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.core.env.Environment;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
 public class AvailabilityController {
 
     @Autowired
-    // private EngineerRepository repo;
+    private Environment env;
 
     private static final String template = "Hello %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -34,9 +36,8 @@ public class AvailabilityController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        @Value("${server.port}")
-        Integer port;
-        Greeting grt = restTemplate.getForObject("http://localhost:" + port.toString() + "/hello-world?name=" + name, Greeting.class );
+      
+        Greeting grt = restTemplate.getForObject("http://localhost:" + env.getProperty("server.port") + "/hello-world?name=" + name, Greeting.class );
 
         return grt;
     }
