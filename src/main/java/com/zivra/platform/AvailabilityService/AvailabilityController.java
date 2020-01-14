@@ -34,7 +34,9 @@ public class AvailabilityController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        Greeting grt = restTemplate.getForObject("http://localhost:9000/hello-world?name=" + name, Greeting.class );
+        @Value("${server.port}")
+        Integer port;
+        Greeting grt = restTemplate.getForObject("http://localhost:" + port.toString() + "/hello-world?name=" + name, Greeting.class );
 
         return grt;
     }
