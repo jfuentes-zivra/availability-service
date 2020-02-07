@@ -1,0 +1,12 @@
+name: SecretScan
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Secret Scan
+      uses: max/secret-scan@1.0.0
