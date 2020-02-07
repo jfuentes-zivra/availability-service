@@ -4,5 +4,6 @@ on: [push]
 
 jobs:
   scan:
-  - name: Secret Scan
-    uses: max/secret-scan@1.0.0
+    steps:
+      - name: Secret Scan
+        uses: max/secret-scan@1.0.0
