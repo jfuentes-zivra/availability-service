@@ -1,9 +1,9 @@
-name: CI
+name: SecretScan
 
 on: [push]
 
 jobs:
-  build:
+  scan:
 
     runs-on: ubuntu-latest
 
