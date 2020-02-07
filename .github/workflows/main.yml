@@ -4,6 +4,8 @@ on: [push]
 
 jobs:
   scan:
+    runs-on: ubuntu-latest
+    name: secret-scan
     steps:
       - name: Secret Scan
         uses: max/secret-scan@1.0.0
