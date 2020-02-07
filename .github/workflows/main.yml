@@ -9,3 +9,5 @@ jobs:
     steps:
       - name: Secret Scan
         uses: max/secret-scan@1.0.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
