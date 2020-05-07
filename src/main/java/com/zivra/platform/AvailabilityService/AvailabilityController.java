@@ -34,6 +34,8 @@ public class AvailabilityController {
     @ResponseBody
     public Greeting restHello(@RequestParam(name="name", required = false, defaultValue = "world") String name){
 
+        String url = new String("https://google.com");
+        
         RestTemplate restTemplate = new RestTemplate();
 
       
