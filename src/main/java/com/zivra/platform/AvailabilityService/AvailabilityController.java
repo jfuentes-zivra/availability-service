@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
-
+import java.net.*;
 
 @Controller
 public class AvailabilityController {
@@ -34,7 +34,7 @@ public class AvailabilityController {
     @ResponseBody
     public Greeting restHello(@RequestParam(name="name", required = false, defaultValue = "world") String name){
 
-        String url = new String("https://google.com");
+        URL url = new String("https://google.com");
         
         RestTemplate restTemplate = new RestTemplate();
 
