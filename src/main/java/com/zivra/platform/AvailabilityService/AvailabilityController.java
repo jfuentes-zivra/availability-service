@@ -33,12 +33,17 @@ public class AvailabilityController {
     @GetMapping("/rest-hello")
     @ResponseBody
     public Greeting restHello(@RequestParam(name="name", required = false, defaultValue = "world") String name){
+        
+        // trying some bad things to see if sonarqube will catch them
+        String ip = "192.168.12.42"; // Noncompliant
 
         try{
             URL url = new URL("https://google.com");
         }
         catch(Exception e){
         }
+
+        ////////////////////////////////////////////////////////////////////
         
         RestTemplate restTemplate = new RestTemplate();
 
