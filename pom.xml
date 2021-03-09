@@ -160,7 +160,7 @@
 				</executions>
 				<configuration>
 					<serverId>nexus</serverId>
-					<nexusUrl>https://nexus.james.lab.zivra.com:8443/</nexusUrl>
+					<nexusUrl>https://nexus.james.lab.zivra.com/</nexusUrl>
 					<!-- <skipStaging>true</skipStaging> -->
 				</configuration>
 			</plugin>
@@ -175,13 +175,13 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>https://nexus.james.lab.zivra.com:8443/repository/maven-snapshots/</url>
+			<url>https://nexus.james.lab.zivra.com/repository/maven-snapshots/</url>
 		</snapshotRepository>
 		<repository>
 			<uniqueVersion>true</uniqueVersion>
 			<id>nexus-releases</id>
 			<name>Nexus Release Repo</name>
-			<url>https://nexus.james.lab.zivra.com:8443/repository/maven-releases</url>
+			<url>https://nexus.james.lab.zivra.com/repository/maven-releases</url>
 			<layout>default</layout>
 		</repository>
 	</distributionManagement>
