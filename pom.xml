@@ -160,7 +160,7 @@
 				</executions>
 				<configuration>
 					<serverId>nexus</serverId>
-					<nexusUrl>https://nexus.james.lab.zivra.com:8443/</nexusUrl>
+					<nexusUrl>https://nexus.james.lab.zivra.com/</nexusUrl>
 					<!-- <skipStaging>true</skipStaging> -->
 				</configuration>
 			</plugin>
