@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.core.env.Environment;
-
+import javax.crypto.Cipher;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
 import java.net.*;
@@ -39,6 +39,18 @@ public class AvailabilityController {
 
         try{
             URL url = new URL("https://google.com");
+
+            // BAD: DES is a weak algorithm
+            Cipher des = Cipher.getInstance("DES");
+            // des.init(Cipher.ENCRYPT_MODE, null);
+
+            byte[] encrypted = des.doFinal("hello".getBytes("UTF-8"));
+
+            // ...
+
+            // GOOD: AES is a strong algorithm
+            Cipher aes = Cipher.getInstance("AES");
+
         }
         catch(Exception e){
         }
