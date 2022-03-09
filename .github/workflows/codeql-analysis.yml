@@ -64,7 +64,6 @@ jobs:
 
     - run: |
       mvn package
-#      make release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
