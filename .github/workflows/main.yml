@@ -9,9 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: max/secret-scan@master
-    # - name: Run a one-line script
-    #   run: echo Hello, world!
+    # - uses: max/secret-scan@master
+    - name: Run a one-line script
+      run: echo Hello, world!
     # - name: Run a multi-line script
     #   run: |
     #     echo Add other actions to build,
