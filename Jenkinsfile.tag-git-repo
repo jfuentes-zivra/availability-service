@@ -13,6 +13,7 @@ pipeline{
             agent{
                 docker{
                     image 'maven:3-jdk-8'
+                    args '-v maven_m2:${WORKSPACE}/.m2 -e JAVA_OPTIONS="-Duser.home=${WORKSPACE}"'
                 }
             }          
             steps{
@@ -27,7 +28,7 @@ pipeline{
                 agent{
                     docker{
                         image 'maven:3.6-jdk-11'
-                        args '-v jenkins-m2:/.m2:z -e MAVEN_CONFIG=/.m2 -v /var/run/docker.sock:/var/run/docker.sock'  //_JAVA_OPTIONS="-Duser.home=/"'
+                        args '-e JAVA_OPTIONS="-Duser.home=${WORKSPACE}" -e HOME="${WORKSPACE}"'
                     }
                 } 
 
