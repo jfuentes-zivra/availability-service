@@ -45,7 +45,7 @@ pipeline{
                         
                         git config --global user.email "jenkins@james.lab.zivra.com"
                         git config --global user.name "Jenkins Pipeline"
-                        git tag -a $GIT_TAG $GIT_COMMIT_ID
+                        git tag -m "set by jenkins" -a $GIT_TAG $GIT_COMMIT_ID
 
                         git push -u $GIT_TAG
                     """
