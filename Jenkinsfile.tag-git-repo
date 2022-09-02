@@ -1,1 +1,56 @@
+pipeline{
 
+    agent none
+
+    parameters {
+        string(name: 'GIT_COMMIT_ID', description: 'Git URL for project')
+        string(name: 'GIT_TAG', description: 'Release Version')
+    }
+
+    stages{
+
+        stage('Debug Info'){
+            agent{
+                docker{
+                    image 'maven:3-jdk-8'
+                    args '-v maven_m2:${WORKSPACE}/.m2 -e JAVA_OPTIONS="-Duser.home=${WORKSPACE}"'
+                }
+            }          
+            steps{
+                echo "Git URL:  ${params.GIT_URL}"
+                echo "Release version:  ${params.RELEASE_VERSION}"
+                echo "Release tag:  ${params.RELEASE_TAG}"
+                echo "Release version:  ${params.NEXT_VERSION}"
+            }
+        }
+
+        stage('Tag'){
+                agent{
+                    docker{
+                        image 'maven:3.6-jdk-11'
+                        args '-v jenkins-m2:/.m2:z -e MAVEN_CONFIG=/.m2 -v /var/run/docker.sock:/var/run/docker.sock'  //_JAVA_OPTIONS="-Duser.home=/"'
+                    }
+                } 
+
+                environment{
+                    // this creates a temp directory and sets an env var to it's location.
+                    GITOPS_DIR = sh (returnStdout: true, script: "mktemp -d").trim()  // without the trim it adds a newline and screws everything up
+                }
+
+                steps{
+                    // need ssh agent to provide creds to push git commits
+                    sshagent(['smithj@github.com']) {
+                        
+                    sh """
+                        
+                        git tag -a $GIT_TAG $GIT_COMMIT_ID
+
+                        git push -u $GIT_TAG
+                    """
+
+                    }
+                }
+            
+            }
+    }
+}
