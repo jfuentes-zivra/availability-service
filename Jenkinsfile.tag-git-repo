@@ -27,8 +27,7 @@ pipeline{
         stage('Tag'){
                 agent{
                     docker{
-                        image 'maven:3.6-jdk-11'
-                        args '-e JAVA_OPTIONS="-Duser.home=${WORKSPACE}" -e HOME="${WORKSPACE}"'
+                        image 'docker.james.lab.zivra.com/ubi/ubi8:latest'
                     }
                 } 
 
@@ -48,7 +47,7 @@ pipeline{
                         git tag -m "set by jenkins" -a $GIT_TAG $GIT_COMMIT_ID
 
                         git remote -v
-                        
+
                         git push -u origin $GIT_TAG
                     """
 
