@@ -47,7 +47,7 @@ pipeline{
                         git config --global user.name "Jenkins Pipeline"
                         git tag -m "set by jenkins" -a $GIT_TAG $GIT_COMMIT_ID
 
-                        git push -u $GIT_TAG
+                        git push -u origin $GIT_TAG
                     """
 
                     }
