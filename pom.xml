@@ -4,7 +4,7 @@
 
 	<groupId>com.zivra.platform</groupId>
 	<artifactId>availability-service</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2-harness</version>
 	<packaging>jar</packaging>
 
 	<name>AvailabilityService</name>
