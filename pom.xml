@@ -37,39 +37,10 @@
 			<version>4.9.10</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-amqp</artifactId>-->
-		<!--</dependency>-->
-
-		<!-- <dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<version>1.50.5</version>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>cz.jirutka.spring</groupId>
-			<artifactId>embedmongo-spring</artifactId>
-			<version>RELEASE</version>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-security</artifactId>-->
-		<!--</dependency>-->
-		<!-- <dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-server</artifactId>
-		    <version>2.6.7</version>
-
-		</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -88,11 +59,6 @@
 			<version>2.6.7</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<scope>test</scope>
-		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
@@ -104,30 +70,17 @@
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- <dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-dependencies</artifactId>
-				<version>${spring-boot-admin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>de.flapdoodle.embed</groupId>
-				<artifactId>de.flapdoodle.embed.mongo</artifactId>
-				<scope>import</scope>
-			</dependency> -->
 
-			<!-- <dependency>
-				<groupId>cz.jirutka.spring</groupId>
-				<artifactId>embedmongo-spring</artifactId>
-				<version>1.3.1</version>
-				<scope>import</scope>
-			</dependency> -->
-			<!-- https://mvnrepository.com/artifact/junit/junit -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -180,6 +133,12 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.3</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+			</plugin>
+
 		</plugins>
 	</build>
 

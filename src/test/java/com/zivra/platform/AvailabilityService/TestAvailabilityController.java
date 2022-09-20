@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class AvailabilityControllerTest {
+public class TestAvailabilityController {
 
     @Before
     public void setUp() throws Exception {
