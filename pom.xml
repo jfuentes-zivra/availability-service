@@ -112,7 +112,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.8</version>
+				<version>1.6.13</version>
 				<executions>
 					<execution>
 						<id>default-deploy</id>
@@ -123,9 +123,9 @@
 					</execution>
 				</executions>
 				<configuration>
-					<serverId>nexus</serverId>
-					<nexusUrl>https://nexus.james.lab.zivra.com/</nexusUrl>
-					<!-- <skipStaging>true</skipStaging> -->
+					<serverId>nexus-releases</serverId>
+					<nexusUrl>https://nexus.james.lab.zivra.com/repository/maven-releases</nexusUrl>
+					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>
 			<plugin>
