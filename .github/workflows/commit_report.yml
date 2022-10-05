@@ -1,0 +1,28 @@
+# This workflow creates a file with the commits for the current branch
+
+name: Report
+
+on:
+  # Triggers the workflow on push or pull request events on any branch
+#  push:
+#  pull_request:
+  # Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  commit_list:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get Commits List
+      run: git log --pretty=format:"%aN, %ad, %s" --no-merges > commits.csv
+ #   - name: Get File as Artifact
+ #     uses: actions/upload-artifact@v3
+ #     with:
+ #       name: reporte_commits
+ #       path: ./commits.csv
+            
