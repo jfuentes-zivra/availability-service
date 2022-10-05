@@ -16,15 +16,14 @@ jobs:
         runs-on: ubuntu-latest
         name: A job to get the list of commits
         steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v3
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Get Commits List
-              run: git log --pretty=format:"%aN, %ad, %s" --no-merges > commits.csv
-            - name: Get File as Artifact
-              uses: actions/upload-artifact@v3
-              with:
-                name: reporte_commits
-                path: ./commits.csv
+        - uses: actions/checkout@v3
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Get Commits List
+          run: git log --pretty=format:"%aN, %ad, %s" --no-merges > commits.csv
+        - name: Get File as Artifact
+        - uses: actions/upload-artifact@v3
+          with:
+            name: reporte_commits
+            path: ./commits.csv
             
