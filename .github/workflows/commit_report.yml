@@ -35,7 +35,7 @@ jobs:
     #
     #  * smtp://user:password@server:port
     #  * smtp+starttls://user:password@server:port
-        connection_url: ${{secrets.MAIL_CONNECTION}}
+    #    connection_url: ${{secrets.MAIL_CONNECTION}}
     # Required mail server address if not connection_url:
         server_address: email-smtp.us-west-1.amazonaws.com
     # Server port, default 25:
