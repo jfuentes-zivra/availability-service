@@ -43,9 +43,9 @@ jobs:
     # Optional whether this connection use TLS (default is true if server_port is 465)
         secure: true
     # Optional (recommended): mail server username:
-        username: ${{secrets.MAIL_USERNAME}}
+        username: zivralab@gmail.com
     # Optional (recommended) mail server password:
-        password: ${{secrets.MAIL_PASSWORD}}
+        password: ZivraZivra!123
     # Required mail subject:
         subject: Github Actions job result
     # Required recipients' addresses:
