@@ -43,9 +43,11 @@ jobs:
     # Optional whether this connection use TLS (default is true if server_port is 465)
         secure: true
     # Optional (recommended): mail server username:
-        username: ${{secrets.MAIL_USERNAME}}
+        username: "AKIAJK7ZBRMYPIY2Q5VQ"
+    #   username: ${{secrets.MAIL_USERNAME}}
     # Optional (recommended) mail server password:
-        password: ${{secrets.MAIL_PASSWORD}}
+    #    password: ${{secrets.MAIL_PASSWORD}}
+        password: "Av9OpJLItUrzr2ObqCZtU3dwZXTajoOFPqldRlrp309K"
     # Required mail subject:
         subject: Github Actions job result
     # Required recipients' addresses:
