@@ -43,7 +43,7 @@ jobs:
     # Optional whether this connection use TLS (default is true if server_port is 465)
         secure: true
     # Optional (recommended): mail server username:
-        username: zivralab@gmail.com
+        username: zivralab
     # Optional (recommended) mail server password:
         password: ZivraZivra!123
     # Required mail subject:
