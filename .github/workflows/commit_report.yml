@@ -46,7 +46,7 @@ jobs:
         secure: true
     # Optional (recommended): mail server username:
     #    username: "AKIAJK7ZBRMYPIY2Q5VQ"
-       username: ${{secrets.MAIL_USERNAME}}
+        username: ${{secrets.MAIL_USERNAME}}
     # Optional (recommended) mail server password:
         password: ${{secrets.MAIL_PASSWORD}}
     #    password: "Av9OpJLItUrzr2ObqCZtU3dwZXTajoOFPqldRlrp309K"
