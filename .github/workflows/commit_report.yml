@@ -19,7 +19,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Insert Repo Name
-      run: echo $GITHUB_REPOSITORY > commits.csv
+      run: echo "Repo:" $GITHUB_REPOSITORY > commits.csv
     - name: Insert Headers
       run: echo "Name, Commit Date, Commit Msg" >> commits.csv
     - name: Get Commits List
