@@ -18,8 +18,10 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: Insert Headers
+      run: echo "Name, Commit Date, Commit Msg" > commits.csv
     - name: Get Commits List
-      run: git log --pretty=format:"%aN, %ad, %s" --no-merges > commits.csv
+      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits.csv
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
