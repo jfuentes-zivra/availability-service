@@ -1,0 +1,22 @@
+# This workflow creates a report of the Pull Requests of the repository
+
+name: PR_Report
+
+on:
+# Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *'
+
+jobs:
+  pull_request_report:
+    runs-on: ubuntu-latest
+    name: Get Pull Requests
+    steps:
+      - name: listPullRequests
+        uses: buildsville/list-pull-requests@v1
+        id: list
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+      - name: report_result
+        run: echo '${{ steps.list.outputs.pulls }}'        
