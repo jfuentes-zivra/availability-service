@@ -38,7 +38,7 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Your ${{github.repository}} Repo Commit History
-        to: jfuentes@zivra.com,lfairley@zivra.com
+        to: jfuentes@zivra.com
         from: Jorge Fuentes <jfuentes@zivra.com>
         body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
         ignore_cert: true
