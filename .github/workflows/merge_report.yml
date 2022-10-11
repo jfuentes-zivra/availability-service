@@ -1,0 +1,47 @@
+# This workflow creates a file with the commits for the current branch
+
+name: R3port
+
+on:
+  # Triggers the workflow on push or pull request events on any branch
+#  push:
+#  pull_request:
+  # Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+#  repository_dispatch:
+
+jobs:
+  commit_list:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Insert Repo Name
+      run: echo "Merge Report for Repo:" $GITHUB_REPOSITORY > merges.csv
+    - name: Insert Headers
+      run: echo "Name, Merge Date, Merge Msg" >> merges.csv
+    - name: Get Commits List
+      run: git log --merges --pretty=format:"%aN, %ad, %s" >> merges.csv
+    - name: Get File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Commit Report
+        path: ./merges.csv
+    - name: Send mail
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: email-smtp.us-west-2.amazonaws.com
+        server_port: 465
+        secure: true
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Your ${{github.repository}} Repo Commit History
+        to: jfuentes@zivra.com
+        from: Jorge Fuentes <jfuentes@zivra.com>
+        body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
+        ignore_cert: true
+        convert_markdown: true
+        attachments: ./merges.csv
+        priority: low
