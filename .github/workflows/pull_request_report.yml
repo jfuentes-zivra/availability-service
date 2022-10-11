@@ -18,6 +18,6 @@ jobs:
         id: list
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          labels: ''
+          labels: '[]'
       - name: report_result
         run: echo '${{ steps.list.outputs.pulls }}'        
