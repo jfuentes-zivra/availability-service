@@ -57,7 +57,7 @@ jobs:
     # Required recipients' addresses:
         to: jfuentes@zivra.com,jfuentes66@gmail.com
     # Required sender full name (address can be skipped):
-        from: Zivra Lab # <zivralab@gmail.com>
+        from: jfuentes@zivra.com
     # Optional plain body:
         body: Build job of ${{github.repository}} completed successfully!
     # Optional HTML body read from file:
