@@ -57,7 +57,7 @@ jobs:
     # Required sender full name (address can be skipped):
         from: Jorge Fuentes <jfuentes@zivra.com>
     # Optional plain body:
-        body: Build job of ${{github.repository}} completed successfully!
+        body: You're getting this email because the workflow fun for ${{github.repository}} completed successfully!. Please check the attached report.
     # Optional HTML body read from file:
     #    html_body: file://README.html
     # Optional carbon copy recipients:
