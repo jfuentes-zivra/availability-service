@@ -53,7 +53,7 @@ jobs:
     # Required mail subject:
         subject: Github Actions job result
     # Required recipients' addresses:
-        to: jfuentes@zivra.com,jfuentes66@gmail.com
+        to: jfuentes@zivra.com,lfairley@zivra.com
     # Required sender full name (address can be skipped):
         from: Jorge Fuentes <jfuentes@zivra.com>
     # Optional plain body:
