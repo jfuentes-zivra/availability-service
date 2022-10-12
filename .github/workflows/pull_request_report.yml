@@ -27,5 +27,5 @@ jobs:
     name: Get Pull Requests with API
     steps:
       - name: GetPullRequests
-        run: curl  https://api.github.com/repos/Zivra/availability-service/pulls -H "Authorization:token ${{secrets.API_TOKEN}}"
-
+      #  run: curl  https://api.github.com/repos/Zivra/availability-service/pulls -H "Authorization:token ${{secrets.API_TOKEN}}" | jq '.[] | {user: .login, }'
+        run: curl 'https://api.github.com/repos/stedolan/jq/commits?per_page=5' | jq '.'
