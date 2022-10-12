@@ -9,9 +9,9 @@ on:
     - cron: '05 02 * * *'
 
 jobs:
-  pull_request_report:
+  pr_report_Actions:
     runs-on: ubuntu-latest
-    name: Get Pull Requests
+    name: Get Pull Requests with Actions
     steps:
       - name: listPullRequests
         uses: buildsville/list-pull-requests@v1
@@ -20,4 +20,12 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           labels: '[]'
       - name: report_result
-        run: echo '${{ steps.list.outputs.pulls }}'        
+        run: echo '${{ steps.list.outputs.pulls }}'  
+        
+  pr_report_api:
+    runs-on: ubuntu-latest
+    name: Get Pull Requests with API
+    steps:
+      - name: GetPullRequests
+        run: curl  https://api.github.com/repos/Zivra/availability-service/pulls -H "Authorization:${{secrets.API_TOKEN}}"
+
