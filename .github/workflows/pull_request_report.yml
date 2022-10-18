@@ -30,13 +30,15 @@ jobs:
         run: sudo apt-get install -y jq
       - name: GetPullRequests
         run: |
+          echo "running pull request report now"
           # Get the pull request report and have JQ extract the desired fields
           curl  https://api.github.com/repos/Zivra/availability-service/pulls -H "Authorization:token ${{secrets.API_TOKEN}}" | jq '[.[] | {user:.user.login,created:.created_at,Assignees:.assignees}]' > out1.txt
           # Process the output and reformat to have one line for each output block. Send output to a new file
-          run: sed ':a;N;$!ba;s/,\n/,/g' out1.txt > out2.txt
+          sed ':a;N;$!ba;s/,\n/,/g' out1.txt > out2.txt
           # Have JQ process the new file and convert to CSV inserting headers, and then each the fields on each line. Output to csv file
           jq -r '["User", "Created", "Assignee"], (.[] | [.user, .created, .assignee]) | @csv' out2.txt > csv_file.csv
           #Clean unneeded files
+          echo "cleaning files now"
           rm out*.txt
       - name: Get File as Artifact
         uses: actions/upload-artifact@v3
