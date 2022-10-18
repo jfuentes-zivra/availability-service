@@ -27,5 +27,33 @@ jobs:
     name: Get Pull Requests with API
     steps:
       - name: GetPullRequests
-        run: curl  https://api.github.com/repos/Zivra/availability-service/pulls -H "Authorization:token ${{secrets.API_TOKEN}}" | jq '[.[] | {user:.user.login,created:.created_at,Assignees:.assignees}]' 
-        #  run: curl 'https://api.github.com/repos/stedolan/jq/commits?per_page=5' | jq '.'
+        run: |
+          # Get the pull request report and have JQ extract the desired fields
+          curl  https://api.github.com/repos/Zivra/availability-service/pulls -H "Authorization:token ${{secrets.API_TOKEN}}" | jq '[.[] | {user:.user.login,created:.created_at,Assignees:.assignees}]' > out1.txt
+          # Process the output and reformat to have one line for each output block. Send output to a new file
+          run: sed ':a;N;$!ba;s/,\n/,/g' out1.txt > out2.txt
+          # Have JQ process the new file and convert to CSV inserting headers, and then each the fields on each line. Output to csv file
+          jq -r '["User", "Created", "Assignee"], (.[] | [.user, .created, .assignee]) | @csv' out2.txt > csv_file.csv
+          #Clean unneeded files
+          rm out*.txt
+      - name: Get File as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Commit Report
+          path: ./csv_file.csv
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: email-smtp.us-west-2.amazonaws.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Your ${{github.repository}} Repo Commit History
+          to: jfuentes@zivra.com
+          from: Jorge Fuentes <jfuentes@zivra.com>
+          body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
+          ignore_cert: true
+          convert_markdown: true
+          attachments: ./csv_file.csv
+          priority: low
