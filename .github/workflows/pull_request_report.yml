@@ -26,6 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Get Pull Requests with API
     steps:
+      - name: Install jq in ubuntu
+        run: yum install -y jq
       - name: GetPullRequests
         run: |
           # Get the pull request report and have JQ extract the desired fields
