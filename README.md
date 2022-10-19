@@ -1,6 +1,6 @@
 # zivra-availability-service
 
-## Collaborators
+## Collaborators for this project
 
 <!-- readme: collaborators -start -->
 <table>
