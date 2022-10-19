@@ -43,7 +43,7 @@ jobs:
       - name: Get File as Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Commit Report
+          name: Pull Request Report
           path: ./csv_file.csv
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
