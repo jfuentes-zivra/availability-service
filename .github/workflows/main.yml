@@ -2,7 +2,7 @@ name: SecretScan
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "30 * * * *"
 
 #on: [push]
 
