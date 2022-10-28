@@ -61,7 +61,7 @@ jobs:
     - name: get_commit_2
       run: cp ./commit_report_2/commits2.csv .
     - name: Consolidate Report
-      run: cat ./commits1.csv > sumarized.csv && cat ./commits2.csv >> summarized.csv      
+      run: cat ./commits*.csv >> sumarized.csv       
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
