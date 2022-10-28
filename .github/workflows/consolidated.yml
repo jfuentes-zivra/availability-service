@@ -24,7 +24,7 @@ jobs:
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: Commit Report
+        name: commit_report_1
         path: ./commits1.csv
         
   repo2_commit:
@@ -42,12 +42,24 @@ jobs:
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: Commit Report
+        name: commit_report_2
         path: ./commits2.csv
         
   sumarize_commit:
     runs-on: ubuntu-latest
     steps:
+    - name: Get Artifact 1
+      uses: actions/download-artifact@v3
+      with:
+        name: commit_report_1
+    - name: unzip_commit_1
+      run: unzip commit_report_1.zip | cp ./commit_report_1/commits1.csv .
+    - name: Get Artifact 2
+      uses: actions/download-artifact@v3
+      with:
+        name: commit_report_2
+    - name: unzip_commit_2
+      run: unzip commit_report_2.zip | cp ./commit_report_2/commits2.csv .
     - name: Consolidate Report
       run: cat ./commits1.csv > sumarized.csv && cat ./commits2.csv >> summarized.csv      
     - name: Get File as Artifact
