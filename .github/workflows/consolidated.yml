@@ -32,7 +32,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        repository: 'Zivra/servicenow_dev'
+        repository: 'https://github.com/Zivra/servicenow_dev.git'
         fetch-depth: 0
     - name: Insert Repo Name
       run: echo "Repo:" $GITHUB_REPOSITORY > commits2.csv
