@@ -50,36 +50,38 @@ jobs:
     steps:
     - name: Get Artifact 1
       uses: actions/download-artifact@v3
-      with:
-        name: ./commit_report_1
-    - name: unzip_commit_1
-      run: unzip commit_report_1.zip | cp ./commit_report_1/commits1.csv .
-    - name: Get Artifact 2
-      uses: actions/download-artifact@v3
-      with:
-        name: ./commit_report_2
-    - name: unzip_commit_2
-      run: unzip commit_report_2.zip | cp ./commit_report_2/commits2.csv .
-    - name: Consolidate Report
-      run: cat ./commits1.csv > sumarized.csv && cat ./commits2.csv >> summarized.csv      
-    - name: Get File as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Commit Report
-        path: ./summarized.csv
-    - name: Send mail
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: email-smtp.us-west-2.amazonaws.com
-        server_port: 465
-        secure: true
-        username: ${{secrets.MAIL_USERNAME}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        subject: Your ${{github.repository}} Repo Commit History
-        to: jfuentes@zivra.com
-        from: Jorge Fuentes <jfuentes@zivra.com>
-        body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
-        ignore_cert: true
-        convert_markdown: true
-        attachments: ./summarized.csv
-        priority: low
+#      with:
+#        name: ./commit_report_1
+    - name: check files
+      run: ls -R
+#    - name: unzip_commit_1
+#      run: unzip commit_report_1.zip | cp ./commit_report_1/commits1.csv .     
+#    - name: Get Artifact 2
+#      uses: actions/download-artifact@v3
+#      with:
+#        name: ./commit_report_2
+#    - name: unzip_commit_2
+#      run: unzip commit_report_2.zip | cp ./commit_report_2/commits2.csv .
+#    - name: Consolidate Report
+#      run: cat ./commits1.csv > sumarized.csv && cat ./commits2.csv >> summarized.csv      
+#    - name: Get File as Artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: Commit Report
+#        path: ./summarized.csv
+#    - name: Send mail
+#      uses: dawidd6/action-send-mail@v3
+#      with:
+#        server_address: email-smtp.us-west-2.amazonaws.com
+#        server_port: 465
+#        secure: true
+#        username: ${{secrets.MAIL_USERNAME}}
+#        password: ${{secrets.MAIL_PASSWORD}}
+#        subject: Your ${{github.repository}} Repo Commit History
+#        to: jfuentes@zivra.com
+#        from: Jorge Fuentes <jfuentes@zivra.com>
+#        body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
+#        ignore_cert: true
+#        convert_markdown: true
+#        attachments: ./summarized.csv
+#        priority: low
