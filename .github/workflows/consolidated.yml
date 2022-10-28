@@ -51,13 +51,13 @@ jobs:
     - name: Get Artifact 1
       uses: actions/download-artifact@v3
       with:
-        name: commit_report_1
+        name: ./commit_report_1.zip
     - name: unzip_commit_1
       run: unzip commit_report_1.zip | cp ./commit_report_1/commits1.csv .
     - name: Get Artifact 2
       uses: actions/download-artifact@v3
       with:
-        name: commit_report_2
+        name: ./commit_report_2
     - name: unzip_commit_2
       run: unzip commit_report_2.zip | cp ./commit_report_2/commits2.csv .
     - name: Consolidate Report
