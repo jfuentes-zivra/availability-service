@@ -18,11 +18,13 @@ jobs:
         token: ${{ secrets.API_TOKEN }}
         fetch-depth: 0
     - name: Insert Repo Name
-      run: echo "Repo:" $GITHUB_REPOSITORY > commits1.csv
+      run: echo "Repo:Check Secrets" > commits1.csv
     - name: Insert Headers
       run: echo "Repo,Name, Commit Date, Commit Msg" >> commits1.csv
     - name: Get Commits List
       run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits1.csv
+    - name: Add Repo Name column
+      run: sed -i '3,$ s/^/Check_Secrets,/' repo1.csv
     - name: Add empty line  
       run: echo -e "\n" >> commits1.csv
     - name: Get File as Artifact
@@ -45,6 +47,8 @@ jobs:
       run: echo "Repo,Name, Commit Date, Commit Msg" >> commits2.csv
     - name: Get Commits List
       run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits2.csv
+    - name: Add Repo Name column
+      run: sed -i '3,$ s/^/Servicenow_dev,/' repo1.csv
     - name: Add empty line  
       run: echo -e "\n" >> commits2.csv
     - name: Get File as Artifact
