@@ -24,7 +24,7 @@ jobs:
     - name: Get Commits List
       run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits1.csv
     - name: Add Repo Name column
-      run: sed -i '3,$ s/^/Check_Secrets,/' repo1.csv
+      run: sed -i '3,$ s/^/Check_Secrets,/' commits1.csv
     - name: Add empty line  
       run: echo -e "\n" >> commits1.csv
     - name: Get File as Artifact
@@ -48,7 +48,7 @@ jobs:
     - name: Get Commits List
       run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits2.csv
     - name: Add Repo Name column
-      run: sed -i '3,$ s/^/Servicenow_dev,/' repo1.csv
+      run: sed -i '3,$ s/^/Servicenow_dev,/' commits2.csv
     - name: Add empty line  
       run: echo -e "\n" >> commits2.csv
     - name: Get File as Artifact
