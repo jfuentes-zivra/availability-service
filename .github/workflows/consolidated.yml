@@ -14,7 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: 'Zivra/check_secrets'
+        repository: Zivra/check_secrets
+        path: check_secrets
         fetch-depth: 0
     - name: Insert Repo Name
       run: echo "Repo:" $GITHUB_REPOSITORY > commits1.csv
