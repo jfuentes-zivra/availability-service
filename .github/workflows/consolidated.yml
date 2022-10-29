@@ -14,6 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
+        repository: 'Zivra/check_secrets'
         fetch-depth: 0
     - name: Insert Repo Name
       run: echo "Repo:" $GITHUB_REPOSITORY > commits1.csv
@@ -27,60 +28,60 @@ jobs:
         name: commit_report_1
         path: ./commits1.csv
         
-  repo2_commit:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: 'Zivra/servicenow_dev'
-        fetch-depth: 0
-    - name: Insert Repo Name
-      run: echo "Repo:" $GITHUB_REPOSITORY > commits2.csv
-    - name: Insert Headers
-      run: echo "Repo,Name, Commit Date, Commit Msg" >> commits2.csv
-    - name: Get Commits List
-      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits2.csv
-    - name: Get File as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: commit_report_2
-        path: ./commits2.csv
-        
-  sumarize_commit:
-    runs-on: ubuntu-latest
-    needs: [ repo1_commit,repo2_commit ]
-    steps:
-    - name: Get Artifacts
-      # using download-artifact without specifying a name will download all the available artifacts
-      uses: actions/download-artifact@v3
+#  repo2_commit:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v3
 #      with:
-#        name: ./commit_report_1
-    - name: check files
-      run: ls -R
-    - name: get_commit_1
-      run: cp ./commit_report_1/commits1.csv .     
-    - name: get_commit_2
-      run: cp ./commit_report_2/commits2.csv .
-    - name: Consolidate Report
-      run: cat ./commits*.csv >> sumarized.csv       
-    - name: Get File as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Commit Report
-        path: ./summarized.csv
-    - name: Send mail
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: email-smtp.us-west-2.amazonaws.com
-        server_port: 465
-        secure: true
-        username: ${{secrets.MAIL_USERNAME}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        subject: Your ${{github.repository}} Repo Commit History
-        to: jfuentes@zivra.com
-        from: Jorge Fuentes <jfuentes@zivra.com>
-        body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
-        ignore_cert: true
-        convert_markdown: true
-        attachments: ./summarized.csv
-        priority: low
+#        repository: 'Zivra/servicenow_dev'
+#        fetch-depth: 0
+#    - name: Insert Repo Name
+#      run: echo "Repo:" $GITHUB_REPOSITORY > commits2.csv
+#    - name: Insert Headers
+#      run: echo "Repo,Name, Commit Date, Commit Msg" >> commits2.csv
+#    - name: Get Commits List
+#      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits2.csv
+#    - name: Get File as Artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: commit_report_2
+#        path: ./commits2.csv
+#        
+#  sumarize_commit:
+#    runs-on: ubuntu-latest
+#    needs: [ repo1_commit,repo2_commit ]
+#    steps:
+#    - name: Get Artifacts
+#      # using download-artifact without specifying a name will download all the available artifacts
+#      uses: actions/download-artifact@v3
+##      with:
+##        name: ./commit_report_1
+#    - name: check files
+#      run: ls -R
+#    - name: get_commit_1
+#      run: cp ./commit_report_1/commits1.csv .     
+#    - name: get_commit_2
+#      run: cp ./commit_report_2/commits2.csv .
+#    - name: Consolidate Report
+#      run: cat ./commits*.csv >> sumarized.csv       
+#    - name: Get File as Artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: Commit Report
+#        path: ./summarized.csv
+#    - name: Send mail
+#      uses: dawidd6/action-send-mail@v3
+#      with:
+#        server_address: email-smtp.us-west-2.amazonaws.com
+#        server_port: 465
+#        secure: true
+#        username: ${{secrets.MAIL_USERNAME}}
+#        password: ${{secrets.MAIL_PASSWORD}}
+#        subject: Your ${{github.repository}} Repo Commit History
+#        to: jfuentes@zivra.com
+#        from: Jorge Fuentes <jfuentes@zivra.com>
+#        body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
+#        ignore_cert: true
+#        convert_markdown: true
+#        attachments: ./summarized.csv
+#        priority: low
