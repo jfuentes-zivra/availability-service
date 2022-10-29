@@ -22,7 +22,7 @@ jobs:
     - name: Insert Headers
       run: echo "Repo,Name, Commit Date, Commit Msg" >> commits1.csv
     - name: Get Commits List
-      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits1.csv
+      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits1.csv | echo "/n" >> commits1.csv
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
@@ -42,7 +42,7 @@ jobs:
     - name: Insert Headers
       run: echo "Repo,Name, Commit Date, Commit Msg" >> commits2.csv
     - name: Get Commits List
-      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits2.csv
+      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits2.csv | echo "/n" >> commits2.csv
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
