@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#    - uses: actions/checkout@v2
-#      with:
-#        fetch-depth: 0
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: display commit message
       run: echo ${{ github.event.head_commit.message }}
     - name: Send API to SN
