@@ -15,7 +15,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: display commit message
-      run: echo ${{ github.event.head_commit.message }}
+      run: echo  echo "${{toJSON(github.event.head_commit.message)}}"
     - name: Send API to SN
     #  run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"All the squashed commits in here\"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
       run: | 
