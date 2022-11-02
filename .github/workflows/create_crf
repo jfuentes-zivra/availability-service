@@ -1,0 +1,19 @@
+# This workflow creates a Change Request ticket on Service Now
+
+name: create_crf
+
+on:
+# Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  create_crf_via_api:
+    runs-on: ubuntu-latest
+
+    steps:
+#    - uses: actions/checkout@v2
+#      with:
+#        fetch-depth: 0
+    - name: Send API to SN
+      run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\"}" \--user ${SN_USER}:${SN_PASSWD}
+    
