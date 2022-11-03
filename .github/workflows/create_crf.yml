@@ -18,10 +18,11 @@ jobs:
       run: echo  echo ${{toJSON(github.event.commits[0].message)}}
     - name: Send API to SN
     #  run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"All the squashed commits in here\"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+    #    curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \    
       run: | 
-        curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
+        curl "https://igtest.service-now.com/api/now/table/change_request" \
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF with info\",\"description\":${{github.event.head_commit.message}}}" \
+          --data "{\"short_description\":\"Testing new CRF with info\",\"type\":\"Planned\",\"state\":\"7\",\"phase\":\"closed\"}" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
