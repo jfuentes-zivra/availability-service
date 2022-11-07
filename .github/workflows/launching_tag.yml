@@ -1,4 +1,4 @@
-name: SecretScan
+name: Report_on_Tag
 
 on:  
   push:
