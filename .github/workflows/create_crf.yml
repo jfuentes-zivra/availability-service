@@ -41,4 +41,4 @@ jobs:
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
           --data "{\"short_description\":\"Testing new CRF with info\",\"type\":\"Planned\",\"description\":${{ env.MY_STRING }}}" \
-          --user ${{ secrets.SN_USER }}:${{ secrets.SN_PASSWD }}
+          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
