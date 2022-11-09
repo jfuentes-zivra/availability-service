@@ -32,13 +32,14 @@ jobs:
       run: |
         echo "The string is: ${{ env.MY_STRING }}"
     - name: Send API to SN
+      run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":${{ env.MY_STRING }}}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
     #  run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"All the squashed commits in here\"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
     #  run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \    
 #       curl "https://igtest.service-now.com/api/now/table/change_request" \
-      run: | 
-        curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \    
-          --request POST \
-          --header "Accept:application/json" \
-          --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF with info\",\"type\":\"Planned\",\"description\":${{ env.MY_STRING }}}" \
-          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+#      run: | 
+#        curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \    
+#          --request POST \
+#          --header "Accept:application/json" \
+#          --header "Content-Type:application/json" \
+#          --data "{\"short_description\":\"Testing new CRF with info\",\"type\":\"Planned\",\"description\":${{ env.MY_STRING }}}" \
+#          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
