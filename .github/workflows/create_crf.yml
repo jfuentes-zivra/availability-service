@@ -19,9 +19,9 @@ jobs:
     - name: create string
       run: |
         MY_STRING=$(cat << EOF
-        first line
-        second line
-        third line
+        first line \
+        second line \
+        third line \
         EOF
         )
         echo "MY_STRING<<EOF" >> $GITHUB_ENV
