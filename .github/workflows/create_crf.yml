@@ -41,5 +41,5 @@ jobs:
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"This is the text of line one,\\n and this is line two \"}" \
+          --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":${{env.GITHUB_ACTOR}}}" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
