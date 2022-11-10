@@ -1,6 +1,6 @@
 #This workflow creates a file with the merges for the current branch
 
-name: Commits
+name: Commits_on_tag
 
 on:
 #Enable to run this workflow manually from the Actions tab
