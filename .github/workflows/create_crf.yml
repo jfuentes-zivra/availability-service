@@ -33,7 +33,7 @@ jobs:
       id: my_string
     - name: display string
       run: |
-        echo "The string is: ${{ github_repository }}"
+        echo "The string is: $GITHUB_REPOSITORY"
     - name: Send API to SN
 #      run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"This is the text of line one,\\n and this is line two \"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
     #  run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"All the squashed commits in here\"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
@@ -44,5 +44,5 @@ jobs:
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #${{ github_job }}\",\"description\":\"${{ github_repository }}\" }" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_JOB\",\"description\":\"$GITHUB_REPOSITORY\" }" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
