@@ -34,8 +34,7 @@ jobs:
     - name: display string
       run: |
         echo "The string is: $MY_STRING"
-    - name: Create String and Send API to SN
-      id: my_string_two
+    - name: Send API to SN
       run: |
         MY_STRING2=$(cat << EOF
         first line
