@@ -6,6 +6,9 @@ on:
 # Enable to run this workflow manually from the Actions tab
   workflow_dispatch:
   push:
+  
+env:
+  MY_STRING: Hello
 
 jobs:
   create_crf_via_api:
@@ -30,7 +33,6 @@ jobs:
 #        echo "MY_STRING<<EOF" >> $GITHUB_ENV
 #        echo "$MY_STRING" >> $GITHUB_ENV
 #        echo "EOF" >> $GITHUB_ENV
-      run: MY_STRING=Hello
       id: my_string
     - name: display string
       run: |
