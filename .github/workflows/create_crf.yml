@@ -17,7 +17,7 @@ jobs:
         fetch-depth: 0
         token: ${{ github.token }}
     
-    - name: display commit message
+    - name: Display Commit Message
       run: echo "${{toJSON(github.event.commits[0].message)}}"
     - name: create string
       run: |
