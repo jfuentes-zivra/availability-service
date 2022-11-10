@@ -37,19 +37,19 @@ jobs:
     - name: Create String and Send API to SN
       id: my_string_two
       run: |
-        MY_STRING=$(cat << EOF
+        MY_STRING2=$(cat << EOF
         first line
         second line
         third line
         EOF
         )
-        echo "MY_STRING<<EOF" >> $GITHUB_ENV
-        echo "$MY_STRING" >> $GITHUB_ENV
+        echo "MY_STRING2<<EOF" >> $GITHUB_ENV
+        echo "$MY_STRING2" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
-        echo "The string is: $MY_STRING"
+        echo "The string is: $MY_STRING2"
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"${{ MY_STRING }}\" }" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"${{ MY_STRING2 }}\" }" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
