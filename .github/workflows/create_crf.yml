@@ -30,7 +30,7 @@ jobs:
 #        echo "MY_STRING<<EOF" >> $GITHUB_ENV
 #        echo "$MY_STRING" >> $GITHUB_ENV
 #        echo "EOF" >> $GITHUB_ENV
-      run: MY_STRING=$(hostname)
+      run: MY_STRING=Hello
       id: my_string
     - name: display string
       run: |
