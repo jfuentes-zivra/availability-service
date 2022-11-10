@@ -46,7 +46,7 @@ jobs:
         name: commit_report_1
         path: ./commits1.csv
         
-  update_servicenow
+  update_servicenow:
     runs-on: ubuntu-latest
     needs: [ repo1_commit]
     steps:
