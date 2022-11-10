@@ -15,8 +15,10 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        token: ${{ github.token }}
+    
     - name: display commit message
-      run: echo  echo ${{toJSON(github.event.commits[0].message)}}
+      run: echo "${{toJSON(github.event.commits[0].message)}}"
     - name: create string
       run: |
         MY_STRING=$(cat << EOF
@@ -31,7 +33,7 @@ jobs:
       id: my_string
     - name: display string
       run: |
-        echo "The string is: ${{ env.GITHUB_REPOSITORY }}"
+        echo "The string is: ${{ github_repository }}"
     - name: Send API to SN
 #      run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"This is the text of line one,\\n and this is line two \"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
     #  run: curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" --request POST --header "Accept:application/json" --header "Content-Type:application/json" --data "{\"short_description\":\"Testing new CRF from GH\",\"description\":\"All the squashed commits in here\"}" \--user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
@@ -42,5 +44,5 @@ jobs:
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #${{ env.GITHUB_JOB }}\",\"description\":\"${{ env.GITHUB_REPOSITORY }}\" }" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #${{ github_job }}\",\"description\":\"${{ github_repository }}\" }" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
