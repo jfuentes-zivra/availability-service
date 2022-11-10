@@ -19,8 +19,23 @@ jobs:
     
     - name: Display Commit Message
       run: echo "${{toJSON(github.event.commits[0].message)}}"
-    - name: create string
-      run: |
+#    - name: create string
+#      run: |
+#        MY_STRING=$(cat << EOF
+#        first line 
+#        second line 
+#        third line 
+#        EOF
+#        )
+#        echo "MY_STRING<<EOF" >> $GITHUB_ENV
+#        echo "$MY_STRING" >> $GITHUB_ENV
+#        echo "EOF" >> $GITHUB_ENV
+#      id: my_string
+#    - name: display string
+#      run: |
+#        echo "The string is: $MY_STRING"
+    - name: Create String and Send API to SN
+      run: | 
         MY_STRING=$(cat << EOF
         first line 
         second line 
@@ -30,15 +45,10 @@ jobs:
         echo "MY_STRING<<EOF" >> $GITHUB_ENV
         echo "$MY_STRING" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
-      id: my_string
-    - name: display string
-      run: |
         echo "The string is: $MY_STRING"
-    - name: Send API to SN
-      run: | 
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"${MY_STRING}\" }" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"${{ MY_STRING }}\" }" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
