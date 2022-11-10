@@ -1,0 +1,75 @@
+#This workflow creates a file with the merges for the current branch
+
+name: Commits
+
+on:
+#Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+
+
+jobs:
+  repo1_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: Zivra/jorge_test_repo
+        token: ${{ secrets.API_TOKEN }}
+        fetch-depth: 0
+    - name: Insert Repo Name
+      run: echo "Repo:Repo Name Here" > commits1.csv
+    - name: Insert Headers
+      run: echo "Repo,Name, Commit Date, Commit Msg" >> commits1.csv
+    - name: Get Tags
+      run: git tag > all_tags.txt && tail -2 all_tags.txt > tags.txt
+    - name: List tags
+      run: cat tags.txt
+    - name: Get TagA
+      run: echo "prev_tag=$(sed -n '1p' tags.txt)" >> $GITHUB_ENV
+    - name: Get TagB
+      run: echo "new_tag=$(sed -n '2p' tags.txt)" >> $GITHUB_ENV
+    - name: Show Variables
+      run: echo ${{ env.prev_tag }} && echo ${{ env.new_tag }}
+    - name: Get Commits List
+      run: git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%aN, %ad, %s"  >> commits1.csv
+    - name: Add Repo Name column
+      run: sed -i '3,$ s/^/TestRepo,/' commits1.csv
+    - name: Add empty line  
+      run: echo -e "\n" >> commits1.csv
+    - name: Get File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: commit_report_1
+        path: ./commits1.csv
+        
+  update_servicenow
+    runs-on: ubuntu-latest
+    needs: [ repo1_commit]
+    steps:
+    - name: Get Artifacts
+      #using download-artifact without specifying a name will download all the available artifacts
+      uses: actions/download-artifact@v3
+    - name: check files
+      run: ls -R
+    - name: get_commit_1
+      run: |
+        cp ./commit_report_1/commits1.csv commits_on_tag.csv
+        cp ./commit_report_1/commits1.csv commits_on_tag.txt
+        sed ':a;N;$!ba;s/\n/\\n/g' commits_on_tag.txt
+        COMMIT_VALUES=`cat commits_on_tag.txt`
+        curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
+          --request POST \
+          --header "Accept:application/json" \
+          --header "Content-Type:application/json" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"$COMMIT_VALUES\" }" \
+          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+    - name: Get File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Commit Report
+        path: ./commits_on_tag.csv      
+  
