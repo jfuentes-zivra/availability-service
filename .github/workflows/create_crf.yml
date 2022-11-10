@@ -7,9 +7,6 @@ on:
   workflow_dispatch:
   push:
   
-env:
-  MY_STRING: Hello
-
 jobs:
   create_crf_via_api:
     runs-on: ubuntu-latest
@@ -23,16 +20,16 @@ jobs:
     - name: display commit message
       run: echo "${{toJSON(github.event.commits[0].message)}}"
     - name: create string
-#      run: |
-#        MY_STRING=$(cat << EOF
-#        first line 
-#        second line 
-#        third line 
-#        EOF
-#        )
-#        echo "MY_STRING<<EOF" >> $GITHUB_ENV
-#        echo "$MY_STRING" >> $GITHUB_ENV
-#        echo "EOF" >> $GITHUB_ENV
+      run: |
+        MY_STRING=$(cat << EOF
+        first line 
+        second line 
+        third line 
+        EOF
+        )
+        echo "MY_STRING<<EOF" >> $GITHUB_ENV
+        echo "$MY_STRING" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
       id: my_string
     - name: display string
       run: |
@@ -43,5 +40,5 @@ jobs:
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"${{ env.MY_STRING }}\" }" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"${MY_STRING}\" }" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
