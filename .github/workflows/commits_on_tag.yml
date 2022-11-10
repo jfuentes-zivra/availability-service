@@ -64,6 +64,7 @@ jobs:
         COMMIT_VALUES=$(cat << EOF
         EOF
         )
+        echo "Here it goes, this is the commit_values variable content:"
         echo "COMMIT_VALUES<<EOF" >> $GITHUB_ENV
         echo "$COMMIT_VALUES" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
