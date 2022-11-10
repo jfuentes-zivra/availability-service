@@ -61,7 +61,7 @@ jobs:
         cp ./commit_report_1/commits1.csv commits_on_tag.txt
         sed ':a;N;$!ba;s/\n/\\n/g' commits_on_tag.txt
         COMMIT_VALUES=`cat commits_on_tag.txt`
-        cat $COMMIT_VALUES
+        echo $COMMIT_VALUES
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
           --header "Accept:application/json" \
