@@ -61,14 +61,12 @@ jobs:
         cp ./commit_report_1/commits1.csv commits_on_tag.txt
         sed ':a;N;$!ba;s/\n/\\n/g' commits_on_tag.txt
         COMMIT_VALUES=`cat commits_on_tag.txt`
-        COMMIT_VALUES=$(cat << EOF
-        EOF
-        )
-        echo "Here it goes, this is the commit_values variable content:"
         echo "COMMIT_VALUES<<EOF" >> $GITHUB_ENV
         echo "$COMMIT_VALUES" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
+        echo "Here it goes, this is the commit_values variable content:"
         echo $COMMIT_VALUES
+        echo "Here is the CURL command:"
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
           --header "Accept:application/json" \
