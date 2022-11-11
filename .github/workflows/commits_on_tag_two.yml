@@ -31,7 +31,7 @@ jobs:
         echo "new_tag=$(sed -n '2p' tags.txt)" >> $GITHUB_ENV
     - name: Get Commits List
       run: |
-        apt-get install gridsite-clients
+        sudo apt-get install gridsite-clients
         OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%aN, %ad, %s")
         MOD_VAR=$(urlencode $OUT_VAR)
         echo "This is the variable content: $OUT_VAR"
