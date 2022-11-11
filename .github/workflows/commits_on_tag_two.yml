@@ -32,7 +32,7 @@ jobs:
     - name: Get Commits List
       run: |
         OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%aN, %ad, %s")
-        MOD_VAR=$(echo $OUT_VAR | tr \n \\n)
+        MOD_VAR=$(echo $OUT_VAR | tr $ \\n)
         echo "This is the variable content: $MOD_VAR"
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
