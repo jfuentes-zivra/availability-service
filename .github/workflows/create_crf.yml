@@ -5,7 +5,7 @@ name: create_crf
 on:
 # Enable to run this workflow manually from the Actions tab
   workflow_dispatch:
-  push:
+#  push:
   
 jobs:
   create_crf_via_api:
