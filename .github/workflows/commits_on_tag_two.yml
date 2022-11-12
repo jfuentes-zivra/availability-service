@@ -32,8 +32,9 @@ jobs:
     - name: Get Commits List
       run: |
         OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%aN, %ad, %s")
-        MOD_VAR=$(echo $OUT_VAR | sed -e s/$/\|/g)
-        echo "This is the variable content: $MOD_VAR"
+        echo "This is the original variable content: $OUT_VAR"
+        MOD_VAR=$(echo $OUT_VAR | sed -i s/$/\|/g)
+        echo "This is the modified variable content: $MOD_VAR"
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
           --header "Accept:application/json" \
