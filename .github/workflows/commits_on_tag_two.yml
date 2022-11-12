@@ -31,9 +31,8 @@ jobs:
         echo "new_tag=$(sed -n '2p' tags.txt)" >> $GITHUB_ENV
     - name: Get Commits List
       run: |
-        sudo apt-get install gridsite-clients
         OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%aN, %ad, %s")
-        MOD_VAR=$(echo $OUT_VAR | tr -s $ \\n )
+        MOD_VAR=$(echo $OUT_VAR | tr -s $ \n )
         echo "This is the variable content: $OUT_VAR"
         curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
           --request POST \
