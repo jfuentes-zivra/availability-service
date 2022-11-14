@@ -32,7 +32,7 @@ jobs:
         echo "new_tag=$(sed -n '2p' tags.txt)" >> $GITHUB_ENV
     - name: Get Commits List
       run: |
-        OUT_VAR=$(git log5a2fa97...d4b577a --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
+        OUT_VAR=$(git log 5a2fa97...d4b577a --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
         # OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%h \t  %aN \t  %as \t  %s \n")   
         echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
