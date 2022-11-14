@@ -24,6 +24,8 @@ jobs:
         fetch-depth: 0
     - name: Get Tags
       run: |
+        echo "Git Version:"
+        git --version
         git tag > all_tags.txt && tail -2 all_tags.txt > tags.txt
         # Get first tag (previous)
         echo "prev_tag=$(sed -n '1p' tags.txt)" >> $GITHUB_ENV
