@@ -38,7 +38,7 @@ jobs:
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         echo "This is the modified variable content: $MOD_VAR"
         # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
-        curl "https://igtest.service-now.com/api/now/table/change_request" \
+        curl "https://dev135802.service-now.com/api/now/table/change_request" \
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
