@@ -1,0 +1,40 @@
+pipeline:
+  name: Build
+  identifier: Build
+  projectIdentifier: Availability_Service
+  orgIdentifier: default
+  tags: {}
+  connectorRef: account.github_zivra
+  storeType: REMOTE
+  filePath: .harness/Build.yaml
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.github_zivra
+        repoName: availability-service
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.openshift
+              namespace: harness-availability-service
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push
+                  identifier: Build_and_Push
+                  spec:
+                    connectorRef: account.docker_james_lab_zivra_com
+                    repo: harness-testing/availability-service
+                    tags:
+                      - latest
