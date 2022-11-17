@@ -45,3 +45,7 @@ pipeline:
                     repo: harness-testing/availability-service
                     tags:
                       - latest
+  connectorRef: account.github_zivra
+  filePath: .harness/Build.yaml
+  delegateSelectors:
+    - openshift-james
