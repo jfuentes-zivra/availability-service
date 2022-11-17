@@ -4,9 +4,7 @@ pipeline:
   projectIdentifier: Availability_Service
   orgIdentifier: default
   tags: {}
-  connectorRef: account.github_zivra
   storeType: REMOTE
-  filePath: .harness/Build.yaml
   properties:
     ci:
       codebase:
@@ -29,6 +27,15 @@ pipeline:
               os: Linux
           execution:
             steps:
+              - step:
+                  type: Run
+                  name: Maven Package
+                  identifier: Maven_Package
+                  spec:
+                    connectorRef: dockerhub
+                    image: maven:3.8.6-eclipse-temurin-17
+                    shell: Sh
+                    command: mvn clean package -U
               - step:
                   type: BuildAndPushDockerRegistry
                   name: Build and Push
