@@ -15,7 +15,7 @@ jobs:
     - name: Get Repos and store in file
       run: |
         curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos | grep "full_name" > repo_list.txt
-        sed s/^.\{,14\}// repo_list.txt
+        sed 's/\(.\{14\}\)//' -i repo_list.txt  
         cat repo_list.txt
 #         sed s/^.\{,14\}// repo_list.txt | sed -e s/[\",:,\,]//g -i repo_list.txt
 #repo1_commit:
