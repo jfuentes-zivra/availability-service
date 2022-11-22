@@ -68,7 +68,8 @@ jobs:
           --request POST \
           --header "Accept:application/json" \
           --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"$COMMIT_VALUES\" }" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\" }" \
+          --data "{\"description\":\"Testing description Field\" }" \
           --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
