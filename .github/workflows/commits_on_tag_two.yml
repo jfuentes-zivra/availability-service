@@ -37,7 +37,8 @@ jobs:
         echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         echo "git show follows:"
-        git show --pretty=format:"%an %ad" --no-diff
+        git show --pretty=format:"%an %ad" >> git_show.txt
+        cat git_show.txt
         echo "This is the modified variable content: $MOD_VAR"
         # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
         curl "https://dev135802.service-now.com/api/now/table/change_request" \
