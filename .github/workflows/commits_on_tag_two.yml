@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: Zivra/jorge_test_repo
+        repository: Tastyworks/early-registration-api
         token: ${{ secrets.API_TOKEN }}
         fetch-depth: 0
     - name: Get Tags
@@ -34,19 +34,19 @@ jobs:
       run: |
         OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%h \t  %aN \t  %as \t  %s \n") 
         # OUT_VAR=$(git log --before="2022-11-11" --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
-        echo "This is the original variable content: $OUT_VAR"
+        # echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         echo "git show follows:"
         git show ${{ env.new_tag }} >> git_show.txt
         cat git_show.txt
-        echo "This is the modified variable content: $MOD_VAR"
+        # echo "This is the modified variable content: $MOD_VAR"
         # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
-        curl "https://dev135802.service-now.com/api/now/table/change_request" \
-          --request POST \
-          --header "Accept:application/json" \
-          --header "Content-Type:application/json" \
-          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\" }" \
-          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+        # curl "https://dev135802.service-now.com/api/now/table/change_request" \
+        #  --request POST \
+        #  --header "Accept:application/json" \
+        #  --header "Content-Type:application/json" \
+        #  --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\" }" \
+        #  --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
 
         
 #        # Old way to do it next 8 lines
