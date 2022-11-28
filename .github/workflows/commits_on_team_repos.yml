@@ -14,9 +14,9 @@ jobs:
     steps:
     - name: Get Repos and store in file
       run: |
-        curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos | grep "full_name" > repo_list.txt
+        curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos | jq '.[].full_name' > repo_list.txt
         # sed 's/.*\///' -i repo_list.txt |  sed -e s/[\",:,\,]//g -i repo_list.txt
-        sed -r 's/^.{14}//g' -i repo_list.txt |  sed -e s/[\",:,\,]//g -i repo_list.txt
+        # sed -r 's/^.{14}//g' -i repo_list.txt |  sed -e s/[\",:,\,]//g -i repo_list.txt
         cat repo_list.txt
         echo "Now the iteration:"
         while read p; do
