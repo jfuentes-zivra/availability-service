@@ -6,8 +6,8 @@ on:
 #Enable to run this workflow manually from the Actions tab
   workflow_dispatch:
   push:
-#    branches:
-#      - '*'
+    branches:
+      - '*'
     tags:
       - '*'
 
@@ -39,6 +39,9 @@ jobs:
         echo "git show follows:"
         git show ${{ env.new_tag }} --format="%as %an" >> git_show.txt
         cat git_show.txt
+        TAGGER=$(sed -n '2p' git_show.txt | sed 's/.//11g')
+        echo "Tagger is: $TAGGER"
+        TAG_DATE=$(sed -n '5p' git_show.txt | sed 's/^.*: //')
         # echo "This is the modified variable content: $MOD_VAR"
         # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
         # curl "https://dev135802.service-now.com/api/now/table/change_request" \
