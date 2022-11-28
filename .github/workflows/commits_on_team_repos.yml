@@ -19,12 +19,12 @@ jobs:
         # sed -r 's/^.{14}//g' -i repo_list.txt |  sed -e s/[\",:,\,]//g -i repo_list.txt
         cat repo_list.txt
         echo "Now the iteration:"
-        while read p; do
-          curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits  "$p" > out.json
-          jq -s -r '[ "Name", "Commit Date", "Commit Msg" ], (.[] | .message | [ .author.name, .author.date, .message ]) | @csv' out.json
-          echo "here's the content of the directory:"
-          ls -la
-        done < repo_list.txt
+        #while read p; do
+        #  curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits  "$p" > out.json
+        #  jq -s -r '[ "Name", "Commit Date", "Commit Msg" ], (.[] | .message | [ .author.name, .author.date, .message ]) | @csv' out.json
+        #  echo "here's the content of the directory:"
+        #  ls -la
+        #done < repo_list.txt
 
 #repo1_commit:
 #    runs-on: ubuntu-latest
