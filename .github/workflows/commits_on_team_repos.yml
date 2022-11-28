@@ -20,7 +20,7 @@ jobs:
         cat repo_list.txt
         echo "Now the iteration:"
         while read p; do
-          curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/Zivra/"$p"/commits  "$p" > out.json
+          curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits  "$p" > out.json
           jq -s -r '[ "Name", "Commit Date", "Commit Msg" ], (.[] | .message | [ .author.name, .author.date, .message ]) | @csv' out.json
           echo "here's the content of the directory:"
           ls -la
