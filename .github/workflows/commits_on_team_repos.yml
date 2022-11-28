@@ -24,7 +24,7 @@ jobs:
           jq -s -r '[ "Name", "Commit Date", "Commit Msg" ], (.[] | .message | [ .author.name, .author.date, .message ]) | @csv' out.json
           echo "here's the content of the directory:"
           ls -la
-        done <repo_list.txt
+        done < repo_list.txt
 
 #repo1_commit:
 #    runs-on: ubuntu-latest
