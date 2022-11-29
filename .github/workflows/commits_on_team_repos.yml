@@ -14,17 +14,19 @@ jobs:
     steps:
     - name: Get Repos and store in file
       run: |
-        curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos | jq '.full_name' > repo_list.txt
-        # sed 's/.*\///' -i repo_list.txt |  sed -e s/[\",:,\,]//g -i repo_list.txt
-        # sed -r 's/^.{14}//g' -i repo_list.txt |  sed -e s/[\",:,\,]//g -i repo_list.txt
-        cat repo_list.txt
+        curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos | jq '.full_name' > repo_list.json
+        cat repo_list.json
         echo "Now the iteration:"
-        #while read p; do
-        #  curl -i -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits  "$p" > out.json
-        #  jq -s -r '[ "Name", "Commit Date", "Commit Msg" ], (.[] | .message | [ .author.name, .author.date, .message ]) | @csv' out.json
-        #  echo "here's the content of the directory:"
-        #  ls -la
-        #done < repo_list.txt
+        while read p; do
+          curl -H "Authorization: token ${{ secrets.API_TOKEN }" https://api.github.com/repos/"$p"/commits > out.json
+          jq --arg REPO "$p" -r '[ "Repo", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> summarized_commits.csv
+        done < repo_list.json
+    - name: Get File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: summarized_commit_report
+        path: ./summarized_commits.csv
+
 
 #repo1_commit:
 #    runs-on: ubuntu-latest
