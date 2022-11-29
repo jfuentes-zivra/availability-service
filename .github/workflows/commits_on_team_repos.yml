@@ -20,7 +20,7 @@ jobs:
         cat repo_out.json
         echo "Now the iteration:"
         while read p; do
-          curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=300 > out.json
+          curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=100&page=1&page=2 > out.json
           jq --arg REPO "$p" -r '[ "Repo", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> summarized_commits.csv
         done < repo_out.json
     - name: Get File as Artifact
