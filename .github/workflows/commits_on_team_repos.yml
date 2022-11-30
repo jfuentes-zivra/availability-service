@@ -21,6 +21,7 @@ jobs:
         echo "Now the iteration:"
         week_date=$(date --date "-1 week" +%Y-%m-%d)
         while read p; do
+          echo "Weekly report for Repository $p" >> sumarized_commits.csv 
           curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=100 > out.json
           jq --arg REPO "$p" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> summarized_commits.csv
         done < repo_out.json
