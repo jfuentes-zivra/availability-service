@@ -56,12 +56,10 @@ jobs:
           ls -la
         done < repo_out.json
         echo "md=$month_date" >> $GITHUB_ENV
-        echo "rf=Zivra" >> $GITHUB_ENV
-        echo "td=$today" >> $GITHUB_ENV
 
     - name: Get Monthly Report as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: summarized_monthly_report
-        path: ./monthly_commits_${{ env.wd }}_to_${{ env.td }}_${{ env.rf }}.csv
+        path: ./monthly_commits_${{ env.md }}_to_${{ env.td }}_${{ env.rf }}.csv
 
