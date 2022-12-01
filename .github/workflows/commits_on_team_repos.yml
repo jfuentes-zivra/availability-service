@@ -27,6 +27,9 @@ jobs:
           jq --arg REPO "$p" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> weekly_commits_"$week_date"_"$repo_file".csv
           ls -la
         done < repo_out.json
+        echo "::set-env name=week_date::$week_date"
+        echo "::set-env name=repo_file::$repo_file"
+
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
