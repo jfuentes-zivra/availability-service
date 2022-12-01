@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: summarized_commit_report
-        path: ./"weekly_commits_${{ env.week_date }}_${{ repo_file }}".csv
+        path: ./"weekly_commits_${{ env.week_date }}_${{ env.repo_file }}".csv
 
 
 #repo1_commit:
