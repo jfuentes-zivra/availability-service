@@ -20,13 +20,14 @@ jobs:
         cat repo_out.json
         echo "Now the iteration:"
         week_date=$(date --date "-1 week" +%Y-%m-%d)
+        echo "today=$(date --date +%Y-%m-%d)" >> GITHUB_ENV
         rf="Zivra"
         while read p; do
           repo_file=$(echo $p | sed 's/\//-/g')
           # echo "rf=$(echo $p | sed 's/\/.*//')" >> GITHUB_ENV
-          echo "Weekly report for Repository $p" >> weekly_commits_"$week_date"_"$rf".csv 
+          echo "Weekly report for Repository $p" >> weekly_commits_"$week_date"_"$rf"_to_"${{ env.today }}".csv 
           curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=100 > out.json
-          jq --arg REPO "$p" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> weekly_commits_"$week_date"_"$rf".csv
+          jq --arg REPO "$p" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> weekly_commits_"$week_date"_"$rf"_to_"${{ env.today }}".csv
           ls -la
         done < repo_out.json
         echo "wd=$week_date" >> $GITHUB_ENV
@@ -36,7 +37,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: summarized_commit_report
-        path: ./weekly_commits_${{ env.wd }}_${{ env.rf }}.csv
+        path: ./weekly_commits_${{ env.wd }}_${{ env.rf }}_to_${{ env.today }}.csv
 
 
 #repo1_commit:
