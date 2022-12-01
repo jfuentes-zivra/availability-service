@@ -20,7 +20,7 @@ jobs:
         cat repo_out.json
         echo "Now the iteration:"
         week_date=$(date --date "-1 week" +%Y-%m-%d)
-        echo "today=$(date --date +%Y-%m-%d)" >> GITHUB_ENV
+        echo "today=$(date +%Y-%m-%d)" >> GITHUB_ENV
         echo "today normal value is $today"
         echo "today environment value is ${{ env.today }}"
         rf="Zivra"
