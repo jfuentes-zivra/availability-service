@@ -23,6 +23,7 @@ jobs:
         echo "today=$(date +%Y-%m-%d)" >> GITHUB_ENV
         echo "today normal value is $today"
         echo "today environment value is ${{ env.today }}"
+        echo date +%Y-%m-%d
         rf="Zivra"
         while read p; do
           repo_file=$(echo $p | sed 's/\//-/g')
