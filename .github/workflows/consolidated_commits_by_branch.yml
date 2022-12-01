@@ -22,7 +22,7 @@ jobs:
         jq '.[].id' repo_list.json > repo_id.json
         sed -e s/\"//g -i repo_id.json
         cat repo_id.json
-    
+
     - name: Run Weekly Report
       run: |
         week_date=$(date --date "-1 week" +%Y-%m-%d)
