@@ -25,6 +25,7 @@ jobs:
           echo "Weekly report for Repository $p" >> weekly_commits_"$week_date"_"$repo_file".csv 
           curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=100 > out.json
           jq --arg REPO "$p" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> weekly_commits_"$week_date"_"$repo_file".csv
+          ls -la
         done < repo_out.json
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
