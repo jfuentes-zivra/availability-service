@@ -19,6 +19,9 @@ jobs:
         jq '.[].full_name' repo_list.json > repo_out.json
         sed -e s/\"//g -i repo_out.json
         cat repo_out.json
+        jq '.[].full_name' repo_list.json > repo_id.json
+        sed -e s/\"//g -i repo_id.json
+        cat repo_id.json
     
     - name: Run Weekly Report
       run: |
