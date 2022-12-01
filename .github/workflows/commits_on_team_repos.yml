@@ -5,7 +5,7 @@ name: Consolidate_teams_repos
 on:
 # Enable to run this workflow manually from the Actions tab
   workflow_dispatch:
-  push:
+  # push:
 
 jobs:
   build_repo_list:
