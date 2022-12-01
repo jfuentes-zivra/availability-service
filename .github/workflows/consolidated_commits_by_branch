@@ -1,0 +1,69 @@
+# This workflow creates a file with the commits of the repositories belonging to a team including all branches
+
+name: Consolidate_teams_repos_with_branches
+
+on:
+# Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+
+jobs:
+  build_repo_list:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Get Repos and store in file
+      run: |
+        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/1727513/repos > repo_list.json
+        # curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos > repo_list.json
+        jq '.[].full_name' repo_list.json > repo_out.json
+        sed -e s/\"//g -i repo_out.json
+        cat repo_out.json
+        jq '.[].id' repo_list.json > repo_id.json
+        sed -e s/\"//g -i repo_id.json
+        cat repo_id.json
+    
+    - name: Run Weekly Report
+      run: |
+        week_date=$(date --date "-1 week" +%Y-%m-%d)
+        today=$(date +%Y-%m-%d)
+        rf="Zivra"
+        while read p; do
+          repo_file=$(echo $p | sed 's/\//-/g')
+          # echo "rf=$(echo $p | sed 's/\/.*//')" >> GITHUB_ENV
+          echo "Weekly report for Repository $p" >> weekly_commits_"$week_date"_to_"$today"_"$rf".csv 
+		      # Get the list of branches
+		      while read id; do
+	          curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?sha="$id",per_page=100 > out.json
+            jq --arg REPO "$p" --arg ID "$id" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Branch", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, $ID, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> weekly_commits_"$week_date"_to_"$today"_"$rf".csv
+		      done < repo_id.json
+          ls -la
+        done < repo_out.json
+        echo "wd=$week_date" >> $GITHUB_ENV
+        echo "rf=Zivra" >> $GITHUB_ENV
+        echo "td=$today" >> $GITHUB_ENV
+    - name: Get Weekly Report as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: summarized_weekly_report
+        path: ./weekly_commits_${{ env.wd }}_to_${{ env.td }}_${{ env.rf }}.csv
+
+    - name: Run Monthy Report
+      run: |
+        month_date=$(date --date "-1 month" +%Y-%m-%d)
+        today=$(date +%Y-%m-%d)
+        rf="Zivra"
+        while read p; do
+          repo_file=$(echo $p | sed 's/\//-/g')
+          # echo "rf=$(echo $p | sed 's/\/.*//')" >> GITHUB_ENV
+          echo "Monthly report for Repository $p" >> monthly_commits_"$month_date"_to_"$today"_"$rf".csv 
+          curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=100 > out.json
+          jq --arg REPO "$p" --arg filter_date $month_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> monthly_commits_"$month_date"_to_"$today"_"$rf".csv
+          ls -la
+        done < repo_out.json
+        echo "md=$month_date" >> $GITHUB_ENV
+    - name: Get Monthly Report as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: summarized_monthly_report
+        path: ./monthly_commits_${{ env.md }}_to_${{ env.td }}_${{ env.rf }}.csv
