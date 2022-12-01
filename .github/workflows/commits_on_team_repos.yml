@@ -14,7 +14,8 @@ jobs:
     steps:
     - name: Get Repos and store in file
       run: |
-        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos > repo_list.json
+        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6645751/repos > repo_list.json
+        # curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/6746665/repos > repo_list.json
         jq '.[].full_name' repo_list.json > repo_out.json
         sed -e s/\"//g -i repo_out.json
         cat repo_out.json
