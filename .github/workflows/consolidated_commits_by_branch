@@ -1,6 +1,6 @@
 # This workflow creates a file with the commits of the repositories belonging to a team including all branches
 
-name: Consolidate_teams_repos_with_branches
+name: Consolidated_commits_by_branches
 
 on:
 # Enable to run this workflow manually from the Actions tab
