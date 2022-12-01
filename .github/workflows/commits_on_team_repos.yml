@@ -32,13 +32,13 @@ jobs:
         done < repo_out.json
         echo "wd=$week_date" >> $GITHUB_ENV
         echo "rf=Zivra" >> $GITHUB_ENV
-        echo "tday=$today" >> GITHUB_ENV
+        echo "td=$today" >> $GITHUB_ENV
 
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: summarized_commit_report
-        path: ./weekly_commits_${{ env.wd }}_to_${{ env.tday }}_${{ env.rf }}.csv
+        path: ./weekly_commits_${{ env.wd }}_to_${{ env.td }}_${{ env.rf }}.csv
 
 
 #repo1_commit:
