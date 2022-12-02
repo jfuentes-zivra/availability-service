@@ -12,7 +12,7 @@ jobs:
   build_repo_list:
     runs-on: ubuntu-latest
     
-steps:
+    steps:
     - name: Get Repos and store in file
       run: |
         curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/${{ secrets.REPO_ID }}/repos > repo_list.json
