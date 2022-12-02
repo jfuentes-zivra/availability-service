@@ -15,7 +15,8 @@ jobs:
     steps:
     - name: Get Repos and store in file
       run: |
-        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/${{ secrets.REPO_ID }}/repos > repo_list.json
+        # Get the list of repositories associated to the Team defined by TEAM_ID in the secrets panel
+        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/${{ secrets.TEAM_ID }}/repos > repo_list.json
         # Clean repository list and get the full name of repositories
         jq '.[].full_name' repo_list.json > repo_out.json
         # Clean double quotes from repository list
