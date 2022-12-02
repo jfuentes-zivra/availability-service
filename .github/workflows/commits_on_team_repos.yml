@@ -22,12 +22,14 @@ jobs:
         jq '.[].id' repo_list.json > repo_id.json
         sed -e s/\"//g -i repo_id.json
         cat repo_id.json
+        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/1727513 > team_info.json
     
     - name: Run Weekly Report
       run: |
         week_date=$(date --date "-1 week" +%Y-%m-%d)
         today=$(date +%Y-%m-%d)
-        rf="Zivra"
+        rf=$(jq '.name' team_info.json | sed -e s/\"//g)
+        echo "RF = $rf"
         while read p; do
           repo_file=$(echo $p | sed 's/\//-/g')
           # echo "rf=$(echo $p | sed 's/\/.*//')" >> GITHUB_ENV
