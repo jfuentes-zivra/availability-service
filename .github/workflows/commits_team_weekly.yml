@@ -1,0 +1,60 @@
+# This workflow creates a file with the commits of the repositories belonging to a team for the last week
+
+name: Consolidated_team_report_weekly
+
+on:
+# Schedule to run at 6:00 UTC every Saturdaythe and also manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 6"
+
+jobs:
+  build_repo_list:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Get Repos and store in file
+      run: |
+        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/${{ secrets.REPO_ID }}/repos > repo_list.json
+        # Clean repository list and get the full name of repositories
+        jq '.[].full_name' repo_list.json > repo_out.json
+        # Clean double quotes from repository list
+        sed -e s/\"//g -i repo_out.json
+        cat repo_out.json
+        # Get the ID for each repository
+        jq '.[].id' repo_list.json > repo_id.json
+        # Clean double quotes from repo ID list
+        sed -e s/\"//g -i repo_id.json
+        cat repo_id.json
+        # Get team data
+        curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/${{ secrets.REPO_ID }} > team_info.json
+    
+    - name: Run Weekly Report
+      run: |
+        week_date=$(date --date "-1 week" +%Y-%m-%d)
+        today=$(date +%Y-%m-%d)
+        # Get the name of the team and clean double quotes
+        team=$(jq '.name' team_info.json | sed -e s/\"//g)
+        # Iterate on the repository list (repo_out.json) to get the commits for each repository
+        while read p; do
+          # Replace slash in full name for dash (tastyworks/repository to tastyworks-repository)
+          repo_file=$(echo $p | sed 's/\//-/g')
+          # Add header to output csv file
+          echo "Weekly report for Repository $p" >> weekly_commits_"$week_date"_to_"$today"_"$team".csv 
+          # Get the commits for the repository in this iteration
+          curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/repos/"$p"/commits?per_page=100 > out.json
+          # Use jq to filter the commits from last week to date and get repository, sha, name, date, message 
+          jq --arg REPO "$p" --arg filter_date $week_date -r '[.[] | select(.commit.author.date > $filter_date )] | [ "Repo", "Sha", "Name", "Commit Date", "Commit Msg" ], ( .[] | [ $REPO, .sha, .commit.author.name, .commit.author.date, .commit.message ]  ) | @csv' out.json >> weekly_commits_"$week_date"_to_"$today"_"$team".csv
+        done < repo_out.json
+        # Setup github_env variables to use in next steps
+        echo "wd=$week_date" >> $GITHUB_ENV
+        echo "rf=$team" >> $GITHUB_ENV
+        echo "td=$today" >> $GITHUB_ENV
+
+    - name: Get Weekly Report as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: summarized_weekly_report
+        path: ./weekly_commits_${{ env.wd }}_to_${{ env.td }}_${{ env.rf }}.csv
+        # Upload artifact to GitHub for later retrieval
+
