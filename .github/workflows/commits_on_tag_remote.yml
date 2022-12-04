@@ -1,0 +1,18 @@
+#This workflow creates a file with the merges for the current branch
+
+name: Commits_on_tag_two
+
+on:
+#Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+
+
+jobs:
+  call-workflow-in-another-repo:
+    uses: Zivra/tastyworks-automation/.github/workflows/reports_on_tag.yml
+    
