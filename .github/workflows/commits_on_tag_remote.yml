@@ -14,5 +14,5 @@ on:
 
 jobs:
   call-workflow-in-another-repo:
-    uses: Zivra/test-automation/.github/workflows/reports_on_tag.yml@main
+    uses: Zivra/test-automation/.github/workflows/simple_test.yml@main
     
