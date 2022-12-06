@@ -38,8 +38,8 @@ jobs:
       run: |
         pwd
         ls -la
-        aws s3 sync ./commits.csv s3://tastyworks-reports-storage
+        aws s3 sync ./commits.csv s3://tastyworks-reports-repository
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: 'us-east-2'
+        AWS_DEFAULT_REGION: 'us-west-1'
