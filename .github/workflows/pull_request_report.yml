@@ -5,8 +5,8 @@ name: PR_Report
 on:
 # Enable to run this workflow manually from the Actions tab
   workflow_dispatch:
-  schedule:
-    - cron: '31 02 * * *'
+  # schedule:
+  #   - cron: '31 02 * * *'
 
 jobs:
   pr_report_Actions:
