@@ -36,6 +36,8 @@ jobs:
         path: ./commits.csv
     - name: Upload to S3
       run: |
+        pwd
+        ls -la
         aws s3 sync ./commits.csv s3://tastyworks-reports-storage
       env:
         AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
