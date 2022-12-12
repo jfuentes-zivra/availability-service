@@ -10,7 +10,7 @@ on:
     branches:
       - '*'
     tags:
-      - 'PRODUCTION-*'
+      - 'production-*'
 
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
       run: |
         OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%h \t  %aN \t  %as \t  %s \n") 
         # OUT_VAR=$(git log --before="2022-11-11" --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
-        # echo "This is the original variable content: $OUT_VAR"
+        echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         #echo "git show follows:"
         git show ${{ env.new_tag }} --format="%as %an" >> git_show.txt
