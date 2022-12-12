@@ -25,7 +25,7 @@ jobs:
         fetch-depth: 0
     - name: Get Tags
       run: |
-        git tag > all_tags.txt | grep "production-" && tail -2 all_tags.txt > tags.txt
+        git tag | grep "production-" > all_tags.txt  && tail -2 all_tags.txt > tags.txt
         # Check production tags
         git tag | grep "production-" > prod_tags.txt
         echo "here you go with the Production tags:"
