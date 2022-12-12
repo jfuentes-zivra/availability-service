@@ -1,0 +1,61 @@
+#This workflow creates a file when a new tag is pushed to the repository. Tag needs to be a Production tag
+# Production tags can be identified by naming convention: PRODUCTION-XXXX
+
+name: Commits_on_prod_tags
+
+on:
+#Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    # branches:
+    #   - '*'
+    tags:
+      - 'PRODUCTION-*'
+
+
+jobs:
+  repo1_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: Tastyworks/early-registration-api
+        token: ${{ secrets.API_TOKEN }}
+        fetch-depth: 0
+    - name: Get Tags
+      run: |
+        git tag > all_tags.txt && tail -2 all_tags.txt > tags.txt
+        # Check production tags
+        git tag | grep "production-" > prod_tags.txt
+        echo "here you go with the Production tags:"
+        cat prod_tags.txt
+        # Get first tag (previous)
+        echo "prev_tag=$(sed -n '1p' tags.txt)" >> $GITHUB_ENV
+        
+        # Get second tag (newly created)
+        echo "new_tag=$(sed -n '2p' tags.txt)" >> $GITHUB_ENV
+
+    - name: Get Commits List
+      run: |
+        OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%h \t  %aN \t  %as \t  %s \n") 
+        # OUT_VAR=$(git log --before="2022-11-11" --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
+        # echo "This is the original variable content: $OUT_VAR"
+        MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
+        #echo "git show follows:"
+        git show ${{ env.new_tag }} --format="%as %an" >> git_show.txt
+        #cat git_show.txt
+        TAGGER=$(sed -n '2p' git_show.txt | sed 's/^.*: //' | sed 's/<.*//')
+        echo "Tagger is: $TAGGER"
+        TAG_DATE=$(sed -n '5p' git_show.txt | sed 's/.//11g')
+        echo "Tag Date: $TAG_DATE"
+        START_DATE="$TAG_DATE 16:00:00"
+        echo "Start Date: $START_DATE"
+        # echo "This is the modified variable content: $MOD_VAR"
+        # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
+        # curl "https://dev135802.service-now.com/api/now/table/change_request" \
+        #  --request POST \
+        #  --header "Accept:application/json" \
+        #  --header "Content-Type:application/json" \
+        #  --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\" }" \
+        #  --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
