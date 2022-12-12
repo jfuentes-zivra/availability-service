@@ -25,7 +25,7 @@ jobs:
         fetch-depth: 0
     - name: Get Tags
       run: |
-        git tag > all_tags.txt && tail -2 all_tags.txt > tags.txt
+        git tag > all_tags.txt | grep "production-" && tail -2 all_tags.txt > tags.txt
         # Check production tags
         git tag | grep "production-" > prod_tags.txt
         echo "here you go with the Production tags:"
@@ -51,11 +51,11 @@ jobs:
         echo "Tag Date: $TAG_DATE"
         START_DATE="$TAG_DATE 16:00:00"
         echo "Start Date: $START_DATE"
-        # echo "This is the modified variable content: $MOD_VAR"
+        echo "This is the modified variable content: $MOD_VAR"
         # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
-        # curl "https://dev135802.service-now.com/api/now/table/change_request" \
-        #  --request POST \
-        #  --header "Accept:application/json" \
-        #  --header "Content-Type:application/json" \
-        #  --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\" }" \
-        #  --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+        curl "https://dev135802.service-now.com/api/now/table/change_request" \
+         --request POST \
+         --header "Accept:application/json" \
+         --header "Content-Type:application/json" \
+         --data "{\"short_description\":\"Testing new CRF with commits from Production tags #$GITHUB_RUN_ATTEMPT\" }" \
+         --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
