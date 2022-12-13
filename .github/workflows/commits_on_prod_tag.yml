@@ -44,6 +44,9 @@ jobs:
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         #echo "git show follows:"
         git show ${{ env.new_tag }} --format="%as %an" >> git_show.txt
+        echo "Here is the tag information"
+        cat git_show.txt
+        echo " ------------------------------ DONE ---------------------------"
         #cat git_show.txt
         TAGGER=$(sed -n '2p' git_show.txt | sed 's/^.*: //' | sed 's/<.*//')
         echo "Tagger is: $TAGGER"
