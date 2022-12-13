@@ -47,6 +47,9 @@ jobs:
         echo "Here is the tag information"
         cat git_show.txt
         echo " ------------------------------ DONE ---------------------------"
+        REPO=$GITHUB_REPOSITORY
+        APP=sed 's/.*\///' < $REPO
+        echo " APP value is: $APP"
         #cat git_show.txt
         TAGGER=$(sed -n '2p' git_show.txt | sed 's/^.*: //' | sed 's/<.*//')
         echo "Tagger is: $TAGGER"
