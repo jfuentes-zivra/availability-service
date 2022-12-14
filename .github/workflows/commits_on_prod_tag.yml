@@ -53,7 +53,7 @@ jobs:
         echo " APP value is: $APP"
         #cat git_show.txt
         # Get Tagger name and Tag Date
-        SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//40g')
+        SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//41g')
         echo "SHA is $SHA"
         curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/zivra/availability-service/git/tags/$SHA > tag_data.json
         TAG_DATE=$(jq '.tagger.date' tag_data.json | sed 's/\"//g' | sed 's/.//11g')
