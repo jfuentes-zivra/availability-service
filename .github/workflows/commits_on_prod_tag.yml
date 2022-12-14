@@ -42,11 +42,6 @@ jobs:
         # OUT_VAR=$(git log --before="2022-11-11" --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
         echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
-        #echo "git show follows:"
-        git show ${{ env.new_tag }} --format="%as %an" >> git_show.txt
-        echo "Here is the tag information"
-        cat git_show.txt
-        echo " ------------------------------ DONE ---------------------------"
         REPO=$GITHUB_REPOSITORY
         echo "Repo = $REPO"
         APP=$(echo $REPO | sed 's/.*\///')
@@ -55,7 +50,7 @@ jobs:
         # Get Tagger name and Tag Date
         SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//41g')
         echo "SHA is $SHA"
-        curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/zivra/availability-service/git/tags/$SHA > tag_data.json
+        curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
         TAG_DATE=$(jq '.tagger.date' tag_data.json | sed 's/\"//g' | sed 's/.//11g')
         echo "Date $TAG_DATE"
         TAGGER=$(jq '.tagger.name' tag_data.json | sed 's/\"//g')
