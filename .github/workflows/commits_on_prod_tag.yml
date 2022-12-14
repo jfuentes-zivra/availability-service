@@ -57,8 +57,7 @@ jobs:
         echo "SHA is $SHA"
         curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/zivra/availability-service/git/tags/$SHA > tag_data.json
         TAG_DATE=$(jq '.tagger.date' tag_data.json | sed 's/\"//g' | sed 's/.//11g')
-        echo "Date $DATE"
-        echo "Date2 $DATE2"
+        echo "Date $TAG_DATE"
         TAGGER=$(jq '.tagger.name' tag_data.json | sed 's/\"//g')
         echo $TAGGER
         START_DATE="$TAG_DATE 16:00:00"
