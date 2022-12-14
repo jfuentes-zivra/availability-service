@@ -52,10 +52,15 @@ jobs:
         APP=$(echo $REPO | sed 's/.*\///')
         echo " APP value is: $APP"
         #cat git_show.txt
-        TAGGER=$(sed -n '2p' git_show.txt | sed 's/^.*: //' | sed 's/<.*//')
-        echo "Tagger is: $TAGGER"
-        TAG_DATE=$(sed -n '5p' git_show.txt | sed 's/.//11g')
-        echo "Tag Date: $TAG_DATE"
+        # Get Tagger name and Tag Date
+        SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//40g')
+        echo "SHA is $SHA"
+        curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/zivra/availability-service/git/tags/$SHA > tag_data.json
+        TAG_DATE=$(jq '.tagger.date' tag_data.json | sed 's/\"//g' | sed 's/.//11g')
+        echo "Date $DATE"
+        echo "Date2 $DATE2"
+        TAGGER=$(jq '.tagger.name' tag_data.json | sed 's/\"//g')
+        echo $TAGGER
         START_DATE="$TAG_DATE 16:00:00"
         echo "Start Date: $START_DATE"
         echo "This is the modified variable content: $MOD_VAR"
