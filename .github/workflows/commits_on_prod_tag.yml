@@ -48,6 +48,7 @@ jobs:
         cat git_show.txt
         echo " ------------------------------ DONE ---------------------------"
         REPO=$GITHUB_REPOSITORY
+        echo "Repo = $REPO"
         APP=$(echo $REPO | sed 's/.*\///')
         echo " APP value is: $APP"
         #cat git_show.txt
@@ -63,5 +64,5 @@ jobs:
          --request POST \
          --header "Accept:application/json" \
          --header "Content-Type:application/json" \
-         --data "{\"short_description\":\"Testing new CRF with commits from Production tags #$GITHUB_RUN_ATTEMPT\" }" \
+         --data "{\"short_description\":\"Testing new CRF for repo $APP Tag ${{ env.new_tag }}\" }" \
          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
