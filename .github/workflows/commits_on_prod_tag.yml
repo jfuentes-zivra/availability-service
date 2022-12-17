@@ -51,6 +51,8 @@ jobs:
         SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//41g')
         echo "SHA is $SHA"
         curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
+        GH_API=$(gh api -H "Accept: application/vnd.github+json" /repos/$REPO/git/tags/$SHA)
+        echo "here's GH_API value: $GH_API"
         TAG_DATE=$(jq '.tagger.date' tag_data.json | sed 's/\"//g' | sed 's/.//11g')
         echo "Date $TAG_DATE"
         TAGGER=$(jq '.tagger.name' tag_data.json | sed 's/\"//g')
