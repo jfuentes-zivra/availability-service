@@ -26,4 +26,4 @@ jobs:
         echo "The Team Id is: " $TEAM_ID
         curl -H "Authorization: token ${{ secrets.API_TOKEN }}" https://api.github.com/teams/$TEAM_ID/repos > repo_list.json
         echo "List repositories in team:"
-        cat repo_list.json
+        cat repo_list.json | grep "full_name"
