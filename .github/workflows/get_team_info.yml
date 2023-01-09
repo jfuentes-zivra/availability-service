@@ -1,0 +1,23 @@
+#This workflow retrieves Team information and gets the Team ID 
+name: Get_teams_information
+
+on:
+  # Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Enable to run this workflow when a a push is made
+  push:
+
+env:
+    GH_TOKEN: ${{ github.token }}
+    ORGANIZATION: "Zivra"
+    TEAM_NAME: "servicenow"
+    API_TOKEN: ${{ secrets.API_TOKEN }}
+
+jobs:
+  get_team_information:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get Team Information
+      run: |
+        curl -H "Authorization: token ${{ env.API_TOKEN }}" https://api.github.com/orgs/${{ env.ORGANIZATION }}/teams
