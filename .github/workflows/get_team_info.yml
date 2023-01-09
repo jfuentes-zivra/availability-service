@@ -21,5 +21,5 @@ jobs:
     - name: Get Team Information
       run: |
         curl -H "Authorization: token ${{ env.API_TOKEN }}" https://api.github.com/orgs/${{ env.ORGANIZATION }}/teams > out.json
-        jq --arg team_name ${{ env.TEAM_NAME }} -r '[.[] | select(.name == $team_name )] | ( .[] | [ .id ]  )' out.json >> team_id.txt
+        jq --arg team_name ${{ env.TEAM_NAME }} -r '[.[] | select(.name == $team_name )] | ( .[] | .id  )' out.json >> team_id.txt
         cat team_id.txt
