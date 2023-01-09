@@ -9,8 +9,8 @@ on:
 
 env:
     GH_TOKEN: ${{ github.token }}
-    ORGANIZATION: "Zivra"
-    TEAM_NAME: "servicenow"
+    ORGANIZATION: "tastyworks"
+    TEAM_NAME: "Change-Management"
     API_TOKEN: ${{ secrets.API_TOKEN }}
 
 jobs:
