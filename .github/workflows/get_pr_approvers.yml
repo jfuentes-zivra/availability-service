@@ -18,6 +18,8 @@ jobs:
     steps:
     - name: Get PR Approvers List
       run: |
+        pwd
+        ls -la
         echo "Here's the payload"
         cat workflow/event.json
         # echo "This PR was approved"
