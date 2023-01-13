@@ -1,0 +1,42 @@
+# This workflow creates a Change Request ticket on Service Now
+
+name: create_crf
+
+on:
+# Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+#  push:
+  
+jobs:
+  create_crf_via_api:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        token: ${{ github.token }}
+    
+    - name: Display Commit Message
+      run: echo "${{toJSON(github.event.commits[0].message)}}"
+    - name: create string
+      run: |
+        MY_STRING=$(cat << EOF
+        first line\\nsecond line\\nthird line 
+        EOF
+        )
+        echo "MY_STRING<<EOF" >> $GITHUB_ENV
+        echo "$MY_STRING" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+      id: my_string
+    - name: display string
+      run: |
+        echo "The string is: $MY_STRING"
+    - name: Send API to SN
+      run: |
+        curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
+          --request POST \
+          --header "Accept:application/json" \
+          --header "Content-Type:application/json" \
+          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"$MY_STRING\" }" \
+          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}

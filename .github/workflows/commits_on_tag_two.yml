@@ -1,0 +1,94 @@
+#This workflow creates a file with the merges for the current branch
+
+name: Commits_on_tag_two
+
+on:
+#Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    # branches:
+    #   - '*'
+    tags:
+      - '*'
+
+
+jobs:
+  repo1_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: Tastyworks/early-registration-api
+        token: ${{ secrets.API_TOKEN }}
+        fetch-depth: 0
+    - name: Get Tags
+      run: |
+        git tag > all_tags.txt && tail -2 all_tags.txt > tags.txt
+        # Get first tag (previous)
+        echo "prev_tag=$(sed -n '1p' tags.txt)" >> $GITHUB_ENV
+        
+        # Get second tag (newly created)
+        echo "new_tag=$(sed -n '2p' tags.txt)" >> $GITHUB_ENV
+    - name: Get Commits List
+      run: |
+        OUT_VAR=$(git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%h \t  %aN \t  %as \t  %s \n") 
+        # OUT_VAR=$(git log --before="2022-11-11" --pretty=format:"%h \t  %aN \t  %as \t  %s \n")
+        # echo "This is the original variable content: $OUT_VAR"
+        MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
+        #echo "git show follows:"
+        git show ${{ env.new_tag }} --format="%as %an" >> git_show.txt
+        #cat git_show.txt
+        TAGGER=$(sed -n '2p' git_show.txt | sed 's/^.*: //' | sed 's/<.*//')
+        echo "Tagger is: $TAGGER"
+        TAG_DATE=$(sed -n '5p' git_show.txt | sed 's/.//11g')
+        echo "Tag Date: $TAG_DATE"
+        START_DATE="$TAG_DATE 16:00:00"
+        echo "Start Date: $START_DATE"
+        # echo "This is the modified variable content: $MOD_VAR"
+        # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
+        # curl "https://dev135802.service-now.com/api/now/table/change_request" \
+        #  --request POST \
+        #  --header "Accept:application/json" \
+        #  --header "Content-Type:application/json" \
+        #  --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\" }" \
+        #  --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+
+        
+#        # Old way to do it next 8 lines
+#        git log ${{ env.prev_tag }}...${{ env.new_tag }} --pretty=format:"%aN, %ad, %s" >> commits1.csv
+#        # Add a new line at EOF
+#        echo -e "\n" >> commits1.csv
+#    - name: Get File as Artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: commit_report_1
+#        path: ./commits1.csv
+#        
+#  update_servicenow:
+#    runs-on: ubuntu-latest
+#    needs: [ repo1_commit]
+#    steps:
+#    - name: Get Artifacts
+#      #using download-artifact without specifying a name will download all the available artifacts
+#      uses: actions/download-artifact@v3
+#    - name: process_files
+#      run: |
+#        cp ./commit_report_1/commits1.csv commits_on_tag.csv
+#        cp ./commit_report_1/commits1.csv commits_on_tag.txt
+#        sed ':a;N;$!ba;s/\n/\\n/g' commits_on_tag.txt
+#        COMMIT_VALUES=`cat commits_on_tag.txt`
+#        echo "Here it goes, this is the commit_values variable content:"
+#        echo $COMMIT_VALUES
+#        echo "Here is the CURL command:"
+#        curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
+#          --request POST \
+#          --header "Accept:application/json" \
+#          --header "Content-Type:application/json" \
+#          --data "{\"short_description\":\"Testing new CRF from GH Job #$GITHUB_RUN_ATTEMPT\",\"description\":\"$COMMIT_VALUES\" }" \
+#          --user ${{secrets.SN_USER}}:${{secrets.SN_PASSWD}}
+#    - name: Get File as Artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: Commit Report
+#        path: ./commits_on_tag.csv      

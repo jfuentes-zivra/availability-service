@@ -1,14 +1,9 @@
-# This workflow creates a file with the commits for the current branch
+# This workflow creates a file with the merges for the current branch
 
-name: Report_Branch
-
+name: Merge_Report
 
 on:
-  # Triggers the workflow on push or pull request events on any branch
-  push:
-    branches: jfuentes66-patch-1
-#  pull_request:
-  # Enable to run this workflow manually from the Actions tab
+# Enable to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -20,16 +15,16 @@ jobs:
       with:
         fetch-depth: 0
     - name: Insert Repo Name
-      run: echo "Repo:" $GITHUB_REPOSITORY > commits.csv
+      run: echo "Merge Report for Repo:" $GITHUB_REPOSITORY > merges.csv
     - name: Insert Headers
-      run: echo "Name, Commit Date, Commit Msg" >> commits.csv
+      run: echo "Name, Merge Date, Merge Msg" >> merges.csv
     - name: Get Commits List
-      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits.csv
+      run: git log --merges --pretty=format:"%aN, %ad, %s" >> merges.csv
     - name: Get File as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: Commit Report
-        path: ./commits.csv
+        path: ./merges.csv
     - name: Send mail
       uses: dawidd6/action-send-mail@v3
       with:
@@ -44,6 +39,5 @@ jobs:
         body: You're getting this email because the workflow run for ${{github.repository}} completed successfully!. Please check the attached report.
         ignore_cert: true
         convert_markdown: true
-        attachments: ./commits.csv
+        attachments: ./merges.csv
         priority: low
-

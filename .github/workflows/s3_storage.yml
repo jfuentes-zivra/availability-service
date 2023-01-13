@@ -1,0 +1,48 @@
+# This workflow creates a file and stores it in an S3 bucket
+
+name: S3_Storage
+
+on:
+  # Triggers the workflow on push or pull request events on any branch
+  # push:
+  # Enable to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  commit_list:
+    runs-on: ubuntu-latest
+
+    steps:
+    #- name: Install_Aws_Cli
+    #  id: install-aws-cli
+    #  uses: unfor19/install-aws-cli-action@master
+    #  with:
+    #    version: 2
+    - run: aws --version
+      shell: bash
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Insert Repo Name
+      run: echo "Repo:" $GITHUB_REPOSITORY > commits.csv
+    - name: Insert Headers
+      run: echo "Name, Commit Date, Commit Msg" >> commits.csv
+    - name: Get Commits List
+      run: git log --pretty=format:"%aN, %ad, %s" --no-merges >> commits.csv
+    - name: Get File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Commit Report
+        path: ./commits.csv
+    - name: Upload to S3
+      run: |
+        echo "Local directory and contents:"
+        pwd
+        ls -la
+        aws s3 cp ./commits.csv s3://tastyworks-reports-repository
+        echo "S3 bucket contents:"
+        aws s3 ls s3://tastyworks-reports-repository
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: 'us-west-1'
