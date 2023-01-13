@@ -1,0 +1,24 @@
+# This workflow gets the list of approvers for a pull request
+
+name: Pull_request_approvers_list
+
+on:
+# Schedule to run at 6:00 UTC every Saturdaythe and also manually from the Actions tab
+  workflow_dispatch:
+  pull_request_review:
+    types: [submitted]
+    
+env:
+  OWNER_REPO = ${{ env.GITHUB_REPOSITORY }}
+
+jobs:
+  pr_approved:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get PR Approvers List
+      run: |
+        echo "Here's the payload"
+        cat workflow/event.json
+        # echo "This PR was approved"
+        # gh api -H "Accept: application/vnd.github+json" /repos/OWNER_REPO/pulls/PULL_NUMBER/reviews
