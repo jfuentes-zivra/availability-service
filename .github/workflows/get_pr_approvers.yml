@@ -1,6 +1,6 @@
 # This workflow gets the list of approvers for a pull request
 
-name: Pull_request_approvers_list
+name: Get_pull_request_approvers_list
 
 on:
 # Schedule to run at 6:00 UTC every Saturdaythe and also manually from the Actions tab
