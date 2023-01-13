@@ -9,7 +9,7 @@ on:
     types: [submitted]
     
 env:
-  OWNER_REPO = ${{ env.GITHUB_REPOSITORY }}
+  OWNER_REPO: ${{ env.GITHUB_REPOSITORY }}
 
 jobs:
   pr_approved:
@@ -21,4 +21,4 @@ jobs:
         echo "Here's the payload"
         cat workflow/event.json
         # echo "This PR was approved"
-        # gh api -H "Accept: application/vnd.github+json" /repos/OWNER_REPO/pulls/PULL_NUMBER/reviews
+        # gh api -H "Accept: application/vnd.github+json" /repos/$OWNER_REPO/pulls/PULL_NUMBER/reviews
