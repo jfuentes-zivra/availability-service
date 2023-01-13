@@ -9,7 +9,7 @@ on:
     types: [submitted]
     
 env:
-  OWNER_REPO: ${{ GITHUB_REPOSITORY }}
+  OWNER_REPO: env.GITHUB_REPOSITORY
 
 jobs:
   pr_approved:
