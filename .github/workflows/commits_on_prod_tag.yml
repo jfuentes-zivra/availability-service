@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         repository: tastyworks/report-automation
-        token: ${{ secrets.TAG_TOKEN }}
+        token: ${{ secrets.TAGS_TOKEN }}
         fetch-depth: 0
     - name: Get Tags
       run: |
@@ -51,7 +51,7 @@ jobs:
         # Get Tagger name and Tag Date
         SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//41g')
         echo "SHA is $SHA"
-        curl -H "Authorization: token ${{ secrets.TAG_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
+        curl -H "Authorization: token ${{ secrets.TAGS_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
         # curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
         
         echo "this is the api endpoint https://api.github.com/repos/$GITHUB_REPOSITORY/git/tags/$SHA"
