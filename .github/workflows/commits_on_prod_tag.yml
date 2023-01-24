@@ -13,7 +13,7 @@ on:
 env:
     GH_TOKEN: ${{ github.token }}
     # REPO: "tastyworks/early-registration-api"
-    REPO: $GITHUB_REPOSITORY
+    REPO: ${{ system.GITHUB_REPOSITORY}}
 
 
 jobs:
