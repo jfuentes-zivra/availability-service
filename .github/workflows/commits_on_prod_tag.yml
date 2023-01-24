@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: tastyworks/report-automation
+        repository: tastyworks/early-registration-api
         token: ${{ secrets.TAGS_TOKEN }}
         fetch-depth: 0
     - name: Get Tags
@@ -43,7 +43,7 @@ jobs:
         echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         REPO=$GITHUB_REPOSITORY
-        REPO="tastyworks/report-automation"
+        REPO="tastyworks/early-registration-api"
         echo "Repo = $REPO"
         APP=$(echo $REPO | sed 's/.*\///')
         echo " APP value is: $APP"
