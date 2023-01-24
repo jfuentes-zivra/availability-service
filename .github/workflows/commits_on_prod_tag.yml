@@ -57,8 +57,8 @@ jobs:
         echo "this is the api endpoint https://api.github.com/repos/$GITHUB_REPOSITORY/git/tags/$SHA"
         echo "tag_data.json follows:"
         cat tag_data.json
-        GH_API=$(gh api -H "Accept: application/vnd.github+json" /repos/$REPO/git/tags/$SHA)
-        echo "here's GH_API value: $GH_API"
+        # GH_API=$(gh api -H "Accept: application/vnd.github+json" /repos/$REPO/git/tags/$SHA)
+        # echo "here's GH_API value: $GH_API"
         TAG_DATE=$(jq '.tagger.date' tag_data.json | sed 's/\"//g' | sed 's/.//11g')
         echo "Date $TAG_DATE"
         TAGGER=$(jq '.tagger.name' tag_data.json | sed 's/\"//g')
