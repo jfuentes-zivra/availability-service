@@ -20,8 +20,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        # repository: Tastyworks/early-registration-api
-        token: ${{ secrets.API_TOKEN }}
+        repository: tastyworks/report-automation
+        token: ${{ secrets.TAG_TOKEN }}
         fetch-depth: 0
     - name: Get Tags
       run: |
@@ -43,6 +43,7 @@ jobs:
         echo "This is the original variable content: $OUT_VAR"
         MOD_VAR=$(echo $OUT_VAR | sed -e s/$//)
         REPO=$GITHUB_REPOSITORY
+        REPO="tastyworks/report-automation"
         echo "Repo = $REPO"
         APP=$(echo $REPO | sed 's/.*\///')
         echo " APP value is: $APP"
@@ -50,7 +51,9 @@ jobs:
         # Get Tagger name and Tag Date
         SHA=$(git show-ref --tags | grep ${{ env.new_tag }} | sed 's/.//41g')
         echo "SHA is $SHA"
-        curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
+        curl -H "Authorization: token ${{ secrets.TAG_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
+        # curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/$REPO/git/tags/$SHA > tag_data.json
+        
         echo "this is the api endpoint https://api.github.com/repos/$GITHUB_REPOSITORY/git/tags/$SHA"
         echo "tag_data.json follows:"
         cat tag_data.json
@@ -64,7 +67,7 @@ jobs:
         echo "Start Date: $START_DATE"
         echo "This is the modified variable content: $MOD_VAR"
         # curl "https://dev135802.service-now.com/api/sn_chg_rest/change/normal" \
-        curl "https://dev135802.service-now.com/api/now/table/change_request" \
+        # curl "https://dev135802.service-now.com/api/now/table/change_request" \
          --request POST \
          --header "Accept:application/json" \
          --header "Content-Type:application/json" \
