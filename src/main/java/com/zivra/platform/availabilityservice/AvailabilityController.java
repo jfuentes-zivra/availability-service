@@ -1,4 +1,4 @@
-package com.zivra.platform.AvailabilityService;
+package com.zivra.platform.availabilityservice;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,23 +33,23 @@ public class AvailabilityController {
     @GetMapping("/rest-hello")
     @ResponseBody
     public Greeting restHello(@RequestParam(name="name", required = false, defaultValue = "world") String name){
-        
+
         // trying some bad things to see if sonarqube will catch them
-        String ip = "192.168.12.42"; // Noncompliant
+        final String ip = "192.168.12.42"; // Noncompliant
 
         try{
-            URL url = new URL("https://google.com");
+            final URL url = new URL("https://google.com");
 
             // BAD: DES is a weak algorithm
-            Cipher des = Cipher.getInstance("DES");
+            final Cipher des = Cipher.getInstance("DES");
             // des.init(Cipher.ENCRYPT_MODE, null);
 
-            byte[] encrypted = des.doFinal("hello".getBytes("UTF-8"));
+            final byte[] encrypted = des.doFinal("hello".getBytes("UTF-8"));
 
             // ...
 
             // GOOD: AES is a strong algorithm
-            Cipher aes = Cipher.getInstance("AES");
+            final Cipher aes = Cipher.getInstance("AES");
 
         }
         catch(Exception e){
@@ -57,12 +57,9 @@ public class AvailabilityController {
 
         ////////////////////////////////////////////////////////////////////
         
-        RestTemplate restTemplate = new RestTemplate();
+        final RestTemplate restTemplate = new RestTemplate();
 
-      
-        Greeting grt = restTemplate.getForObject("http://localhost:" + env.getProperty("server.port") + "/hello-world?name=" + name, Greeting.class );
-
-        return grt;
+        return restTemplate.getForObject("http://localhost:" + env.getProperty("server.port") + "/hello-world?name=" + name, Greeting.class);
     }
 
 

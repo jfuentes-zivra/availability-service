@@ -1,4 +1,4 @@
-package com.zivra.platform.AvailabilityService;
+package com.zivra.platform.availabilityservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
