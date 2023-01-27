@@ -1,4 +1,4 @@
-package com.zivra.platform.AvailabilityService;
+package com.zivra.platform.availabilityservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

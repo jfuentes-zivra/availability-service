@@ -1,4 +1,4 @@
-package com.zivra.platform.AvailabilityService;
+package com.zivra.platform.availabilityservice;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,9 +18,9 @@ public class AvailabilityControllerTest {
 
     @Test
     public void sayHello() {
-        AvailabilityController ctlr = new AvailabilityController();
+        final AvailabilityController ctlr = new AvailabilityController();
 
-        String msg = ctlr.sayHello("world").getContent();
+        final String msg = ctlr.sayHello("world").getContent();
 
         assertEquals("message ok" ,  msg , "Hello world!");
 
